@@ -1,0 +1,419 @@
+/* Variables  */
+:root {
+  --main-background-color: #eaeded;
+  --secondary-background-color: #232f3e;
+  --contrast-background-color: #febd69;
+  --contrast-hover-color: #f3a43d;
+  --light-mode-color: #fff;
+  --error-color: red;
+}
+
+/* HTML Tags Style */
+html,
+body {
+  height: 100%;
+  background: var(--main-background-color);
+  touch-action: manipulation;
+}
+
+button:hover {
+  cursor: pointer;
+}
+button:focus {
+  outline: none;
+}
+
+button:active {
+  touch-action: pan-y pinch-zoom;
+}
+
+/* ID's */
+#root {
+  height: 100%;
+  position: relative;
+}
+
+/* classes */
+.headerContainer {
+  background: var(--secondary-background-color);
+  padding: 0.5rem;
+  position: relative;
+}
+
+.appLogoText {
+  font-weight: bold;
+  color: var(--contrast-background-color);
+  font-size: larger;
+}
+
+.appLogoText:hover {
+  color: var(--contrast-hover-color);
+}
+
+.appLogo {
+  float: left;
+}
+
+.appLogoImage {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.searchArea {
+  width: 40%;
+  padding-left: 2rem;
+  display: inline-block;
+}
+
+.searchButton {
+  width: 3rem;
+  position: absolute;
+  min-height: 2.35rem;
+  color: var(--secondary-background-color);
+  background: var(--contrast-background-color);
+  border-radius: 0 5px 5px 0;
+  border: 0;
+}
+
+.searchContent {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 400px));
+}
+
+.searchInput {
+  width: 90%;
+  min-height: 2rem;
+  font-size: large;
+  padding: 2.75px;
+  border-radius: 5px 0 0 5px;
+  border: 0;
+  box-shadow: none;
+}
+
+.searchInput:focus {
+  outline: none;
+  border: 0;
+  box-shadow: 0 0 0 0.5pt var(--contrast-background-color);
+}
+
+.searchButton:hover {
+  background: var(--contrast-hover-color);
+}
+
+.couponCard {
+  background: #fff;
+  min-width: 350px;
+  min-height: 200px;
+  border-radius: 5px;
+  margin: 16px;
+  display: inline-block;
+  position: relative;
+  box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.4);
+  transition: all 0.5s ease;
+}
+
+.couponCard:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+  /* Zooming Effect*/
+  -ms-transform: scale(1.01); /* IE 9 */
+  -webkit-transform: scale(1.01); /* Safari 3-8 */
+  transform: scale(1.01);
+}
+.cardHeader {
+  height: 51px;
+}
+
+.cardHeaderText {
+  padding-left: 1rem;
+  padding-top: 3px;
+  display: inline-block;
+}
+
+.cardTypeImage {
+  width: 60px;
+  height: 45px;
+}
+.cardImageHolder {
+  overflow: hidden;
+  float: left;
+  border-radius: 5px;
+  height: 45px;
+  margin: 3px;
+  width: 60px;
+}
+
+.cardTitle {
+  font-weight: bold;
+}
+
+.cardSubTitle {
+  font-size: small;
+  font-style: italic;
+}
+
+.cardFooter {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border: 0;
+  height: 40px;
+  border-radius: 0 0 5px 5px;
+}
+
+.cardLeftContent {
+  text-align: center;
+  float: left;
+  height: 99px;
+  padding: 5px;
+  width: 100px;
+}
+
+.cardRightContent {
+  width: calc(100% - 125px);
+  float: right;
+  height: 99px;
+  border-left: 1px dashed var(--secondary-background-color);
+  padding: 7px;
+}
+
+.endButton {
+  float: right;
+  height: 2rem;
+  margin: 2px;
+  border-radius: 4px;
+  font-size: medium;
+  font-weight: bold;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  background: transparent;
+  color: var(--secondary-background-color);
+  border: 0;
+}
+
+.endButton:hover {
+  border: 1px solid var(--secondary-background-color);
+  background-color: var(--contrast-background-color);
+  color: var(--secondary-background-color);
+}
+.cardPrice {
+  margin: 0;
+}
+
+.priceText {
+  color: #0f790f;
+}
+
+.onlyExchange {
+  color: darkred;
+}
+
+.subText {
+  font-size: small;
+  font-style: italic;
+}
+
+.cardContentAttributes {
+  margin-bottom: 5px;
+}
+
+.actionContainer {
+  float: right;
+}
+
+.headerButton {
+  background: transparent;
+  border: 1px solid var(--light-mode-color);
+  border-radius: 4px;
+  color: var(--light-mode-color);
+}
+
+.headerButton:hover {
+  color: var(--contrast-hover-color);
+  border: 1px solid var(--contrast-hover-color);
+}
+
+.headerButton:focus {
+  box-shadow: 0 0 0 0.5pt var(--contrast-background-color);
+}
+
+.iconButton {
+  padding-top: 4px;
+}
+
+/* Modal Classes */
+.modalContainer {
+  transition: all ease 1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modalHeader {
+  text-align: center;
+  border-radius: 5px 5px 0 0;
+  min-height: 3rem;
+  font-size: larger;
+  color: var(--secondary-background-color);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-weight: bold;
+}
+
+.modalFooter {
+  border-radius: 0 0 5px 5px;
+  min-height: 3rem;
+  width: 100%;
+  bottom: 0;
+}
+
+.modalFooter .endButton {
+  margin: 0.5rem;
+}
+
+.modal {
+  transition: all ease 1s;
+  opacity: 0;
+  transform: scale(0) rotate(720deg);
+  border-radius: 5px;
+  position: fixed;
+  margin: 0 auto;
+  width: auto;
+  min-width: 500px;
+  height:auto;
+  background: var(--main-background-color);
+  box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.4);
+}
+
+.modal.show{
+  transition: all ease 1s;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.modalBody {
+  min-height: 300px;
+  max-height: 450px;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.modalBody::-webkit-scrollbar {
+  width: 0.75em;
+}
+
+.modalBody::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modalBody::-webkit-scrollbar-thumb {
+  background-color: lightslategrey;
+  border-radius: 1rem;
+  outline: 1px solid slategrey;
+}
+
+.form-group {
+  padding: 10px;
+}
+
+.couponInput {
+  width: 100%;
+  font-size: medium;
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.couponInput:focus,
+.couponSelectInput:focus {
+  outline: none;
+  border: 0;
+  box-shadow: 0 0 0 0.5pt var(--secondary-background-color);
+}
+
+.couponSelectInput {
+  padding: 5px;
+  font-size: medium;
+  border-radius: 4px;
+  border: 1px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.searchTitle {
+  margin: 1rem;
+  margin-bottom: 0;
+  color: var(--secondary-background-color);
+}
+
+/* Toast */
+#toast {
+  opacity: 0;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#toast.show {
+  opacity: 1;
+}
+
+
+.expiredText {
+  color: var(--error-color);
+  font-style: italic;
+}
+
+.cardInfo {
+  float: right;
+  padding: 4px;
+}
+
+.iconButton {
+  background: transparent;
+  border: 0;
+}
+
+.errorIcon {
+  color: var(--error-color);
+}
+
+.searchNoData {
+  margin: 1rem;
+  padding: 1rem;
+  font-size: larger;
+  text-align: center;
+  color: var(--secondary-background-color);
+  font-weight: bold;
+  box-shadow: 0 0 16px 0 #ccc;
+}
+
+.expiredCoupon {
+  box-shadow:0 5px 12px 0 rgba(241, 198, 198, 0.4);
+}
+
+
+.expiredCoupon:hover {
+  box-shadow: 0 8px 16px 0 rgba(241, 198, 198, 0.4);
+  /* Zooming Effect*/
+  -ms-transform: scale(1.01); /* IE 9 */
+  -webkit-transform: scale(1.01); /* Safari 3-8 */
+  transform: scale(1.01);
+}
