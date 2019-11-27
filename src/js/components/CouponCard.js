@@ -8,6 +8,9 @@ class CouponCard extends React.Component {
       expired: false,
       coponTypeImageUrl: ""
     };
+
+    this.handleMoreInfoClick = this.handleMoreInfoClick.bind(this);
+    
   }
 
   checkExpired() {
@@ -17,6 +20,10 @@ class CouponCard extends React.Component {
         expired: true
       });
     }
+  }
+
+  handleMoreInfoClick() {
+    this.props.onSelectMoreInfo(this.props.data);
   }
 
   loadCouponTypeImage() {
@@ -133,7 +140,7 @@ class CouponCard extends React.Component {
                 <i className="large material-icons">add_shopping_cart</i>
               </button>
             )}
-            <button className="endButton"> More Info </button>
+            <button className="endButton" onClick={this.handleMoreInfoClick}> More Info </button>
           </div>
         </div>
       </div>

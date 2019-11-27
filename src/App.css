@@ -105,6 +105,7 @@ button:active {
   background: #fff;
   min-width: 350px;
   min-height: 200px;
+  height: 200px;
   border-radius: 5px;
   margin: 16px;
   display: inline-block;
@@ -416,4 +417,44 @@ button:active {
   -ms-transform: scale(1.01); /* IE 9 */
   -webkit-transform: scale(1.01); /* Safari 3-8 */
   transform: scale(1.01);
+}
+
+.searchListLeftContent.detailInShow{
+  width: 450px;
+  overflow-y: auto;
+  position: absolute;
+  height: 100%;
+  display: inline-block;
+}
+
+.searchContentDetails {
+  float: right;
+  width: calc(100% - 500px);
+  padding: 1rem;
+  min-height: 400px;
+  height:auto;
+  margin: 5px;
+  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+}
+
+.detailTitle{
+  width:90%;
+  display: inline-block;
+}
+.detailHeaderAction{
+  float: right;
+  margin: -10px;
+}
+
+.actionIconButton {
+  background: transparent;
+  border: 0;
+  color: var(--secondary-background-color);
+}
+
+.actionIconButton:hover{
+  box-shadow: 0 5px 7px 0 rgba(0, 0, 0, 0.4);
+  color: var(--secondary-background-color);
+  border-radius: 5px;
 }
