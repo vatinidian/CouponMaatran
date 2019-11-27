@@ -5,7 +5,7 @@ import CouponCard from "./CouponCard";
 class SearchContent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { coupons: [] };
+    this.state = { coupons: [], showCouponDetails: false };
     this.getCoupons = this.getCoupons.bind(this);
   }
 
@@ -60,11 +60,12 @@ class SearchContent extends React.Component {
   render() {
     return (
       <div className="searchContentWrap">
-        <h3 className="searchTitle">Coupons ({this.state.coupons.length}) </h3> 
+        <h3 className="searchTitle">Coupons ({this.state.coupons.length}) </h3>
         <div className="searchContent">{this.createCouponCards()}</div>
         {this.state.coupons.length === 0 && (
           <div className="searchNoData">
-            Sorry! No coupons found in search. Please change your search criteria.
+            Sorry! No coupons found in search. Please change your search
+            criteria.
           </div>
         )}
       </div>
