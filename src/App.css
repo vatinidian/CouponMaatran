@@ -34,7 +34,7 @@ button:active {
 }
 
 /* classes */
-.headerContainer {
+.mainContainer {
   background: var(--secondary-background-color);
   padding: 0.5rem;
   position: relative;
@@ -289,12 +289,12 @@ button:active {
   margin: 0 auto;
   width: auto;
   min-width: 500px;
-  height:auto;
+  height: auto;
   background: var(--main-background-color);
   box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.4);
 }
 
-.modal.show{
+.modal.show {
   transition: all ease 1s;
   opacity: 1;
   transform: scale(1) rotate(0deg);
@@ -376,7 +376,6 @@ button:active {
   opacity: 1;
 }
 
-
 .expiredText {
   color: var(--error-color);
   font-style: italic;
@@ -407,9 +406,8 @@ button:active {
 }
 
 .expiredCoupon {
-  box-shadow:0 5px 12px 0 rgba(241, 198, 198, 0.4);
+  box-shadow: 0 5px 12px 0 rgba(241, 198, 198, 0.4);
 }
-
 
 .expiredCoupon:hover {
   box-shadow: 0 8px 16px 0 rgba(241, 198, 198, 0.4);
@@ -419,7 +417,7 @@ button:active {
   transform: scale(1.01);
 }
 
-.searchListLeftContent.detailInShow{
+.searchListLeftContent.detailInShow {
   width: 450px;
   overflow-y: auto;
   position: absolute;
@@ -432,17 +430,17 @@ button:active {
   width: calc(100% - 500px);
   padding: 1rem;
   min-height: 400px;
-  height:auto;
+  height: auto;
   margin: 5px;
   box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.4);
   border-radius: 5px;
 }
 
-.detailTitle{
-  width:90%;
+.detailTitle {
+  width: 90%;
   display: inline-block;
 }
-.detailHeaderAction{
+.detailHeaderAction {
   float: right;
   margin: -10px;
 }
@@ -453,8 +451,92 @@ button:active {
   color: var(--secondary-background-color);
 }
 
-.actionIconButton:hover{
+.actionIconButton:hover {
   box-shadow: 0 5px 7px 0 rgba(0, 0, 0, 0.4);
   color: var(--secondary-background-color);
   border-radius: 5px;
+}
+
+.subHeaderContainer {
+  height: 2rem;
+  padding: 5px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}
+
+.searchCarousel {
+  white-space: nowrap;
+  position: relative;
+}
+
+.navigation {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  width: 2.25rem;
+  z-index: 1;
+  background: var(--contrast-background-color);
+}
+
+.navigation:hover {
+  background: var(--contrast-hover-color);
+  transform: scale(1.15);
+  transition: all 0.5s ease;
+}
+.leftNavigation {
+  float: left;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+
+.rightNavigation {
+  top:0;
+  right:0;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+
+.leftNavigation.show, .rightNavigation.show{
+  visibility: visible;
+  opacity: 1;
+}
+
+.carouselContent {
+  width:calc(100% - 2.25rem);
+  display: inline-block;
+  overflow: hidden;
+  height: 2.25rem;
+  position: absolute;
+}
+
+.carouselContent.moveRight {
+  left: 2.25rem;
+}
+
+.carouselItems {
+  position: relative;
+  height: 2.25rem;
+  display: inline-block;
+}
+.carouselButton {
+  height: 2rem;
+  margin: 2px;
+  border-radius: 4px;
+  font-size: medium;
+  font-weight: bold;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  background: transparent;
+  color: var(--secondary-background-color);
+  border: 0;
+}
+
+.carouselButtonSelected {
+  border: 1px solid var(--secondary-background-color);
+  background-color: var(--contrast-background-color);
+  color: var(--secondary-background-color);
+}
+
+.carouselButton:hover {
+  border: 1px solid var(--secondary-background-color);
+  color: var(--secondary-background-color);
 }

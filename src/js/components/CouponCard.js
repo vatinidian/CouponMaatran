@@ -84,7 +84,7 @@ class CouponCard extends React.Component {
 
             <div className="cardInfo">
               {this.state.expired && (
-                <button class="iconButton errorIcon">
+                <button className="iconButton errorIcon">
                   <i className="large material-icons">error_outline</i>
                 </button>
               )}
