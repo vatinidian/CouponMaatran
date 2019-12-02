@@ -1,7 +1,7 @@
 # CouponMaatran
 React web application to exchange coupons (This is a Learning app )
 
-Idea :
+<b>Idea</b> :
   Usually many of our coupons / vouchers will get wasted due to many factors or we dont have the required coupon which we wanted. This could be avoided if we share /exchange coupons with other coupon which we want or we can buy for money with less price (Both Buyer and Seller Profits).
   Using this application, coupons can be exchanged among the community of people or in a corporate environment, basically among the closed trustable group. So this application does not need to handle the Money Transaction or any transaction problem.
   1. Exchange Coupons with other's coupon
