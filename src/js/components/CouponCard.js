@@ -115,7 +115,7 @@ class CouponCard extends React.Component {
             {/* Right Body Content */}
             <div className="cardRightContent">
               <div className="cardContentAttributes">
-                <b>Validity</b>:{" "}
+                Validity:{" "}
                 {this.state.expired && (
                   <span className="expiredText">(Expired)</span>
                 )}{" "}
@@ -126,7 +126,7 @@ class CouponCard extends React.Component {
               </div>
 
               <div className="cardContentAttributes">
-                <b>Product Info</b>: <br />
+                Product Info: <br />
                 <a href="test" target="_parent">
                   {this.props.data.sourceProductID}{" "}
                 </a>

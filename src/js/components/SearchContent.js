@@ -13,6 +13,7 @@ class SearchContent extends React.Component {
     this.getCoupons = this.getCoupons.bind(this);
     this.handleMoreInfoSelected = this.handleMoreInfoSelected.bind(this);
     this.handleDetailClose = this.handleDetailClose.bind(this);
+    this.handleSort = this.handleSort.bind(this);
   }
 
   /* shouldComponentUpdate(nextProps) {
@@ -49,7 +50,7 @@ class SearchContent extends React.Component {
       .get("http://localhost:5000/coupons/", {
         params: {
           searchFilter: searchText,
-          subFilters : subFilters
+          subFilters: subFilters
         }
       })
       .then(response => {
@@ -87,7 +88,27 @@ class SearchContent extends React.Component {
       showCouponDetails: false
     });
     let oRoot = document.getElementById("root");
-    oRoot.className= "";
+    oRoot.className = "";
+  }
+
+  handleSort(event){
+    let oSortIcon = document.getElementById(event.target.id);
+    let oSortButton;
+    if(event.target.id === "sort") {
+      oSortButton = oSortIcon.parentElement;
+    } else if(event.target.id === "sortButton") {
+      oSortButton = oSortIcon;
+    } else {
+      return;
+    }
+    
+    let sExistingClassName = oSortButton.className;
+
+    if (sExistingClassName === "searchContentButton searchContentButtonSelected") {
+      oSortButton.className = "searchContentButton";
+    } else if (sExistingClassName === "searchContentButton"){
+      oSortButton.className = "searchContentButton searchContentButtonSelected";
+    }
   }
   render() {
     return (
@@ -99,9 +120,18 @@ class SearchContent extends React.Component {
               : "searchListLeftContent"
           }
         >
-          <h3 className="searchTitle">
-            Coupons ({this.state.coupons.length}){" "}
-          </h3>
+          <div className="searchContentHeader">
+            <h3 className="searchTitle">
+              Coupons ({this.state.coupons.length}){" "}
+            </h3>
+
+            <div className="searchContentActions">
+              <button id="sortButton" className="searchContentButton" onClick={this.handleSort}>
+                <i className="large material-icons" id="sort">sort</i>
+                Sort
+              </button>
+            </div>
+          </div>
           <div className="searchContent">{this.createCouponCards()}</div>
         </div>
         <div

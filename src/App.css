@@ -1,6 +1,6 @@
 /* Variables  */
 :root {
-  --main-background-color: #eaeded;
+  --main-background-color: #eaeded6b;
   --secondary-background-color: #232f3e;
   --contrast-background-color: #febd69;
   --contrast-hover-color: #f3a43d;
@@ -350,9 +350,33 @@ button:active {
 }
 
 .searchTitle {
+  display: inline-block;
   margin: 1rem;
   margin-bottom: 0;
   color: var(--secondary-background-color);
+}
+
+.searchContentActions {
+  display: inline-block;
+}
+
+.searchContentButton {
+  background: transparent;
+  border: 0;
+  display: inline-block;
+  border-radius: 3px;
+}
+
+.searchContentButtonSelected {
+  
+  background-color: var(--contrast-background-color);
+  color: var(--secondary-background-color);
+}
+
+.searchContentButton:hover {
+  box-shadow: 0 0 0 1px var(--secondary-background-color);
+  color: var(--secondary-background-color);
+  border-radius: 3px;
 }
 
 /* Toast */
@@ -402,20 +426,18 @@ button:active {
   text-align: center;
   color: var(--secondary-background-color);
   font-weight: bold;
-  box-shadow: 0 0 16px 0 #ccc;
 }
 
-.expiredCoupon {
+/*.expiredCoupon {
   box-shadow: 0 5px 12px 0 rgba(241, 198, 198, 0.4);
 }
 
 .expiredCoupon:hover {
   box-shadow: 0 8px 16px 0 rgba(241, 198, 198, 0.4);
-  /* Zooming Effect*/
-  -ms-transform: scale(1.01); /* IE 9 */
-  -webkit-transform: scale(1.01); /* Safari 3-8 */
+  -ms-transform: scale(1.01); 
+  -webkit-transform: scale(1.01);
   transform: scale(1.01);
-}
+}*/
 
 .searchListLeftContent.detailInShow {
   width: 450px;
@@ -537,7 +559,7 @@ button:active {
   transition: all 0.5s ease;
 }
 .leftNavigation {
-  left:-5px;
+  left: -5px;
   float: left;
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;
@@ -579,12 +601,11 @@ button:active {
   margin: 2px;
   border-radius: 4px;
   font-size: medium;
-  font-weight: bold;
   -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
   background: transparent;
   color: var(--secondary-background-color);
-  border: 0;
+  border: 1px solid #ccc;
 }
 
 .carouselButtonSelected {
