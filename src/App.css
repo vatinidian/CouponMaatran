@@ -537,6 +537,7 @@ button:active {
   transition: all 0.5s ease;
 }
 .leftNavigation {
+  left:-5px;
   float: left;
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;
@@ -544,7 +545,7 @@ button:active {
 
 .rightNavigation {
   top: 0;
-  right: 0;
+  right: -5px;
   border-top-left-radius: 50%;
   border-bottom-left-radius: 50%;
 }
@@ -557,7 +558,8 @@ button:active {
 
 .carouselContent {
   width: calc(100% - 2.25rem);
-  display: inline-block;
+  display: flex;
+  align-items: center;
   overflow: hidden;
   height: 2.25rem;
   position: absolute;
@@ -569,11 +571,11 @@ button:active {
 
 .carouselItems {
   position: relative;
-  height: 2.25rem;
   display: inline-block;
 }
 .carouselButton {
-  height: 2rem;
+  height: fit-content;
+  width: auto;
   margin: 2px;
   border-radius: 4px;
   font-size: medium;

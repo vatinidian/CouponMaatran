@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import Header from "./Header";
 import SearchContent from "./SearchContent";
 import Toast from "./Toast";
@@ -22,6 +21,11 @@ class SearchPage extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleCouponAdded = this.handleCouponAdded.bind(this);
+    this.handleSubFilterChange = this.handleSubFilterChange.bind(this);
+  }
+
+  handleSubFilterChange(aFilters) {
+    this.handleSearch(aFilters);
   }
 
   handleFilterChange(sFielName, sValue) {
@@ -29,30 +33,44 @@ class SearchPage extends React.Component {
     this.setState({ [sFielName]: sValue });
   }
 
-  handleSearch() {
+  handleSearch(aAdditionalFilters) {
     this.setState({
       fireSearch: true
     });
+
+    let oFilter = {};
+    if(aAdditionalFilters && aAdditionalFilters.length > 0){
+      aAdditionalFilters.forEach((oAdditional)=>{
+        if(!oFilter[oAdditional.propertyInCouponModel]) {
+          oFilter[oAdditional.propertyInCouponModel] = [oAdditional.filterName];
+        } else {
+          oFilter[oAdditional.propertyInCouponModel].push(oAdditional.filterName);
+        }
+      });
+    }
     
     this.setState(state => {
       if (state.searchInput) {
         return {
           filter: {
-            searchText: state.searchInput
+            searchText: state.searchInput,
+            subFilters : oFilter
           }
         };
       }
 
-      return { filter: {} };
+      return { filter: {subFilters : oFilter} };
     });
   }
 
   handleCouponAdded() {
+    let iMessageCount = this.state.messageCount;
     this.setState({
       showMessage: true,
       message: "Coupon added successfully!",  
-      messageCount: ++this.state.messageCount
+      messageCount: ++iMessageCount
     });
+
     this.handleSearch();
   }
 
@@ -75,6 +93,7 @@ class SearchPage extends React.Component {
           searchInput={this.state.searchInput}
           onSearch={this.handleSearch}
           onFilterChange={this.handleFilterChange}
+          onSubFiltersChange={this.handleSubFilterChange}
           onAddCouponFinish={this.handleCouponAdded}
         />
         <SearchContent

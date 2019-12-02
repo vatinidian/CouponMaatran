@@ -1,9 +1,6 @@
 import React from "react";
 
 class Toast extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   show() {
     let x = document.getElementById("toast");
     x.className = "show";

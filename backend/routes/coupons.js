@@ -4,6 +4,11 @@ let CouponModel = require("../model/coupon.model");
 router.route("/").get((req, res, next) => {
   let searchFilter = req.query.searchFilter || "";
   let regex = new RegExp(searchFilter, "i");
+  let oSubFilters = {};
+
+  if (req.query.subFilters) {
+    oSubFilters = JSON.parse(req.query.subFilters);
+  }
 
   /*let oQuery = searchFilter
     ? {
@@ -14,9 +19,18 @@ router.route("/").get((req, res, next) => {
 
   let oQuery = searchFilter
     ? {
-        $or: [{ title: regex }, { description: regex }, {category: regex}, {couponType: regex}]
+        $or: [
+          { title: regex },
+          { description: regex },
+          { category: regex },
+          { couponType: regex }
+        ]
       }
     : {};
+
+  for (const sKey in oSubFilters) {
+    oQuery[sKey] = oSubFilters[sKey];
+  }
 
   CouponModel.find(oQuery)
     .then(coupons => res.json(coupons))

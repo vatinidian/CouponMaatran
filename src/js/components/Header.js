@@ -7,117 +7,12 @@ import "react-datepicker/dist/react-datepicker.css";
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.aCarouselItems = [
-      {
-        itemName: "ExchangeOnly",
-        key: "ExchangeOnly",
-        selected: false
-      },
-      {
-        itemName: "CashOnly",
-        key: "CashOnly",
-        selected: false
-      },
-      {
-        itemName: "Fashion",
-        key: "Fashion",
-        selected: false
-      },
-      {
-        itemName: "Test",
-        key: "Test",
-        selected: false
-      },
-      {
-        itemName: "Food",
-        key: "Food",
-        selected: false
-      },
-      {
-        itemName: "Digital",
-        key: "Digital",
-        selected: false
-      },
-      {
-        itemName: "HelloWorld",
-        key: "HelloWorld",
-        selected: false
-      },
-      {
-        itemName: "This is the longest ITEM KEY, i think",
-        key: "This is the longest ITEM KEY",
-        selected: false
-      },
-      {
-        itemName: "LONGGGGGGeeeerrrrrrrTest3",
-        key: "LONGGGGGGTest3",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest4",
-        key: "BigggggTest4",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest5",
-        key: "BigggggTest5",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest10",
-        key: "BigggggTest10",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest11",
-        key: "BigggggTest11",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest12",
-        key: "BigggggTest12",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest13",
-        key: "BigggggTest13",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest14",
-        key: "BigggggTest14",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest15",
-        key: "BigggggTest15",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest16",
-        key: "BigggggTest16",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest17",
-        key: "BigggggTest17",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest18",
-        key: "BigggggTest18",
-        selected: false
-      },
-      {
-        itemName: "BigggggTest19",
-        key: "BigggggTest19",
-        selected: false
-      }
-    ];
+    this.aCarouselItems = [];
 
     this.state = {
       addCouponModalShow: false,
       carouselItems: this.aCarouselItems,
+      selectedSubFilters : [],
       couponType: "",
       category: "",
       price: "",
@@ -148,11 +43,27 @@ class Header extends React.Component {
     const searchInput = document.getElementById("searchInput");
     searchInput.addEventListener("keyup", event => {
       if (event.key === "Enter") {
-        this.props.onSearch();
+        this.props.onSearch(this.state.selectedSubFilters);
       }
     });
 
-    this._showNavButtons();
+    this.getFilterItemsForCarousel();
+
+  }
+
+  getFilterItemsForCarousel() {
+    axios
+      .get("http://localhost:5000/subFilters/")
+      .then(response => {
+        this.setState({ carouselItems: response.data });
+        this.aCarouselItems = response.data;
+        if(this.aCarouselItems.length > 0) {
+          this._showNavButtons();
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   _showNavButtons(sMovedWidth = "0px", sAction) {
@@ -171,9 +82,9 @@ class Header extends React.Component {
       oCarouselContent.className = "carouselContent";
     }
 
-    let sNewMovedWidth = Math.abs(sMovedWidth.replace("px", ""));  
+    let sNewMovedWidth = Math.abs(sMovedWidth.replace("px", ""));
     let sRemainingWidth = sItemWidth - sNewMovedWidth;
-    if(sNewMovedWidth > sItemWidth){
+    if (sNewMovedWidth > sItemWidth) {
       // Something gone wrong , if this case is successful
       // so reset the carousel
       sNewMovedWidth = 0;
@@ -235,6 +146,7 @@ class Header extends React.Component {
     let oCouponPayLoad = Object.assign({}, this.state);
     delete oCouponPayLoad.addCouponModalShow;
     delete oCouponPayLoad.carouselItems;
+    delete oCouponPayLoad.selectedSubFilters;
     axios
       .post("http://localhost:5000/coupons/add", oCouponPayLoad)
       .then((req, res) => {
@@ -399,14 +311,27 @@ class Header extends React.Component {
     );
   }
 
-  handleCarouselItemSelect(event) {
+  getFilterCarouselItemIndex(sFilterName){
+    let aFilters = this.state.selectedSubFilters;
+    return aFilters.findIndex((oFilter)=> oFilter.filterName === sFilterName);
+  }
+
+  handleCarouselItemSelect(oItem, event) {
+    // Do Styling
     let oCarouselItem = document.getElementById(event.target.id);
     let sExistingClassName = oCarouselItem.className;
+    let aSelectedSubFilters = this.state.selectedSubFilters;
     if (sExistingClassName === "carouselButton carouselButtonSelected") {
       oCarouselItem.className = "carouselButton";
+      aSelectedSubFilters.splice(this.getFilterCarouselItemIndex(oItem.filterName), 1);
     } else {
       oCarouselItem.className = "carouselButton carouselButtonSelected";
+      aSelectedSubFilters.push(oItem);
     }
+
+    this.setState({selectedSubFilters : aSelectedSubFilters});
+    // Call Parent Component - Search Page
+    this.props.onSubFiltersChange(aSelectedSubFilters);
   }
 
   handleNavigation(oEvent) {
@@ -436,12 +361,13 @@ class Header extends React.Component {
   loadCarousel() {
     const aCarouselItems = this.state.carouselItems.map(oItem => (
       <button
-        id={oItem.key}
-        key={oItem.key}
+        id={oItem.filterName}
+        key={oItem.filterName}
+        title={oItem.description}
         className="carouselButton"
-        onClick={this.handleCarouselItemSelect}
+        onClick={this.handleCarouselItemSelect.bind(this, oItem)}
       >
-        {oItem.itemName}
+        {oItem.filterName}
       </button>
     ));
     return (
@@ -490,7 +416,7 @@ class Header extends React.Component {
               value={this.props.searchInput}
               onChange={this.handleSearchInputChange}
             />
-            <button className="searchButton" onClick={this.props.onSearch}>
+            <button className="searchButton" onClick={this.props.onSearch.bind(this.state.selectedSubFilters)}>
               <i className="material-icons">search</i>
             </button>
           </div>
@@ -514,7 +440,9 @@ class Header extends React.Component {
             </Modal>
           </div>
         </div>
-        <div className="subHeaderContainer">{this.loadCarousel()}</div>
+        {this.state.carouselItems.length > 0 && (
+          <div className="subHeaderContainer">{this.loadCarousel()}</div>
+        )}
       </div>
     );
   }

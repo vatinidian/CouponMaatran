@@ -27,7 +27,8 @@ class SearchContent extends React.Component {
     if (props.filters.searchText !== searchText || props.fireSearch) {
       this.handleDetailClose();
       this.getCoupons(
-        props.filters.searchText ? props.filters.searchText.trim() : ""
+        props.filters.searchText ? props.filters.searchText.trim() : "",
+        props.filters.subFilters ? props.filters.subFilters : {}
       );
     }
   }
@@ -43,11 +44,12 @@ class SearchContent extends React.Component {
       });
   }
 
-  getCoupons(searchText) {
+  getCoupons(searchText, subFilters) {
     axios
       .get("http://localhost:5000/coupons/", {
         params: {
-          searchFilter: searchText
+          searchFilter: searchText,
+          subFilters : subFilters
         }
       })
       .then(response => {

@@ -127,7 +127,7 @@ class CouponCard extends React.Component {
 
               <div className="cardContentAttributes">
                 <b>Product Info</b>: <br />
-                <a href="" target="_parent">
+                <a href="test" target="_parent">
                   {this.props.data.sourceProductID}{" "}
                 </a>
               </div>
