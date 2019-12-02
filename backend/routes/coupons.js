@@ -35,6 +35,8 @@ router.route("/add").post((req, res) => {
   const sourceProductID = req.body.sourceProductID;
   const exchangeOnly = req.body.exchangeOnly;
   const negotiable = req.body.negotiable;
+  const paymentType = req.body.paymentType;
+  const quantity = req.body.quantity;
 
   const newCoupon = new CouponModel({
     couponType,
@@ -47,7 +49,9 @@ router.route("/add").post((req, res) => {
     ownerID,
     sourceProductID,
     exchangeOnly,
-    negotiable
+    negotiable,
+    paymentType,
+    quantity
   });
 
   newCoupon

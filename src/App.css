@@ -426,14 +426,68 @@ button:active {
 }
 
 .searchContentDetails {
-  float: right;
-  width: calc(100% - 500px);
+  z-index: 30;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: calc(100% - 483px);
   padding: 1rem;
   min-height: 400px;
-  height: auto;
-  margin: 5px;
+  height: 100%;
   box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
+  background: #fff;
+  display: none;
+  animation: slide-out 1s ease-out;
+  box-shadow: -3px 0 5px rgba(36, 41, 46, 0.05);
+}
+
+.searchContentDetails.show {
+  display: block;
+  animation: slide-right 0.3s ease-out;
+  -webkit-animation: slide-right 0.3s ease-out;
+  -moz-animation: slide-righ 0.3s ease-out;
+}
+
+@keyframes slide-out {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-right {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@-webkit-keyframes slide-right {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+  }
+}
+@-moz-keyframes slide-right {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    -moz-transform: translateX(0);
+  }
 }
 
 .detailTitle {
@@ -452,7 +506,7 @@ button:active {
 }
 
 .actionIconButton:hover {
-  box-shadow: 0 5px 7px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
   color: var(--secondary-background-color);
   border-radius: 5px;
 }
@@ -460,7 +514,7 @@ button:active {
 .subHeaderContainer {
   height: 2rem;
   padding: 5px;
-  box-shadow: 0 0 6px rgba(0,0,0,0.2);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 
 .searchCarousel {
@@ -489,19 +543,20 @@ button:active {
 }
 
 .rightNavigation {
-  top:0;
-  right:0;
+  top: 0;
+  right: 0;
   border-top-left-radius: 50%;
   border-bottom-left-radius: 50%;
 }
 
-.leftNavigation.show, .rightNavigation.show{
+.leftNavigation.show,
+.rightNavigation.show {
   visibility: visible;
   opacity: 1;
 }
 
 .carouselContent {
-  width:calc(100% - 2.25rem);
+  width: calc(100% - 2.25rem);
   display: inline-block;
   overflow: hidden;
   height: 2.25rem;
@@ -539,4 +594,8 @@ button:active {
 .carouselButton:hover {
   border: 1px solid var(--secondary-background-color);
   color: var(--secondary-background-color);
+}
+
+#root.hideOverflow {
+  overflow: hidden;
 }

@@ -22,6 +22,18 @@ connection.once('open', () => {
 const coupons = require("./routes/coupons");
 app.use("/coupons", coupons);
 
+const categories = require("./routes/categories");
+app.use("/categories", categories);
+
+const couponTypes = require("./routes/couponTypes");
+app.use("/couponTypes", couponTypes);
+
+const paymentTypes = require("./routes/paymentTypes");
+app.use("/paymentTypes", paymentTypes);
+
+const subFilters = require("./routes/subFilters");
+app.use("/subFilters", subFilters);
+
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });

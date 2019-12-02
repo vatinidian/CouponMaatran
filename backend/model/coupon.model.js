@@ -13,7 +13,9 @@ const couponSchema = new Schema(
     ownerID: { required: true, type: String },
     sourceProductID: { required: true, type: String, trim: true },
     exchangeOnly: { required: true, type: Boolean },
-    negotiable: { required: true, type: Boolean }
+    negotiable: { required: true, type: Boolean },
+    paymentType: {required: true, type: String},
+    quantity: {required: true, type: Number}
   },
   {
     timestamps: true

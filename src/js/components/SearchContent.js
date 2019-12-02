@@ -75,12 +75,17 @@ class SearchContent extends React.Component {
       showCouponDetails: true,
       currentCouponInDetail: oCoupon
     });
+
+    let oRoot = document.getElementById("root");
+    oRoot.className = "hideOverflow";
   }
 
   handleDetailClose() {
     this.setState({
       showCouponDetails: false
     });
+    let oRoot = document.getElementById("root");
+    oRoot.className= "";
   }
   render() {
     return (
@@ -97,23 +102,27 @@ class SearchContent extends React.Component {
           </h3>
           <div className="searchContent">{this.createCouponCards()}</div>
         </div>
-        {this.state.showCouponDetails && (
-          <div className="searchContentDetails">
-            <div className="detailsHeader">
-              <div className="detailTitle">
-                Detail of Coupon : {this.state.currentCouponInDetail.title}
-              </div>
-              <div className="detailHeaderAction">
-                <button
-                  className="actionIconButton"
-                  onClick={this.handleDetailClose}
-                >
-                  <i className="large material-icons">close</i>
-                </button>
-              </div>
+        <div
+          className={
+            this.state.showCouponDetails
+              ? "searchContentDetails show"
+              : "searchContentDetails"
+          }
+        >
+          <div className="detailsHeader">
+            <div className="detailTitle">
+              Detail of Coupon : {this.state.currentCouponInDetail.title}
+            </div>
+            <div className="detailHeaderAction">
+              <button
+                className="actionIconButton"
+                onClick={this.handleDetailClose}
+              >
+                <i className="large material-icons">close</i>
+              </button>
             </div>
           </div>
-        )}
+        </div>
 
         {this.props.fireSearch && this.state.coupons.length === 0 && (
           <div className="searchNoData">
