@@ -1,7 +1,6 @@
 # CouponMaatran
 React web application to exchange coupons (This is a Learning app )
-
-<i>Maatran (Tamil Language) is equivalent to change in English.</i><br/><br/>
+<br/>
 <b>Idea</b> :
   Usually many of our coupons / vouchers will get wasted due to many factors or we dont have the required coupon which we wanted. This could be avoided if we share /exchange coupons with other coupon which we want or we can buy for money with less price (Both Buyer and Seller Profits).
   <br/>
