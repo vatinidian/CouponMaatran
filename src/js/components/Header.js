@@ -33,18 +33,13 @@ class Header extends React.Component {
     this.handlevalidityEndDate = this.handlevalidityEndDate.bind(this);
     this.handlevalidityStartDate = this.handlevalidityStartDate.bind(this);
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
-    this.handleSubFilterChange = this.handleSubFilterChange.bind(this);
-  }
-
-  handleSubFilterChange() {
-    this.props.onSubFiltersChange();
   }
 
   componentDidMount() {
     const searchInput = document.getElementById("searchInput");
     searchInput.addEventListener("keyup", event => {
       if (event.key === "Enter") {
-        this.props.onSearch(this.state.selectedSubFilters);
+        this.props.onSearch();
       }
     });
   }
@@ -302,7 +297,7 @@ class Header extends React.Component {
         </div>
 
         <div className="subHeaderContainer">
-          <SubFilterItemContainer onSubFiltersChange={this.handleSubFilterChange} />
+          <SubFilterItemContainer />
         </div>
       </div>
     );

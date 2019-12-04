@@ -76,9 +76,6 @@ class SubFilterItem extends React.Component {
       oCarouselItem.className = "carouselButton carouselButtonSelected";
       this.props.addToSelectedSubFilter(oItem);
     }
-
-    // Call Parent Component - Search Page
-    this.props.onSubFiltersChange();
   }
 
   handleNavigation(oEvent) {

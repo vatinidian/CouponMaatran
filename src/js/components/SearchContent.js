@@ -16,13 +16,6 @@ class SearchContent extends React.Component {
     this.handleSort = this.handleSort.bind(this);
   }
 
-  /* shouldComponentUpdate(nextProps) {
-    if(!this.props.filters.searchText) {
-      return true;
-    }
-    return this.props.filters.searchText !== nextProps.filters.searchText;
-  }
-*/
   componentWillReceiveProps(props) {
     const { searchText } = this.props.filters;
     if (props.filters.searchText !== searchText || props.fireSearch) {

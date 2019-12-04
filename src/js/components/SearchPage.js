@@ -22,7 +22,6 @@ class SearchPage extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleCouponAdded = this.handleCouponAdded.bind(this);
-    this.handleSubFilterChange = this.handleSubFilterChange.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -31,22 +30,22 @@ class SearchPage extends React.Component {
     }
   }
 
-  handleSubFilterChange() {
-    // this.handleSearch();
-  }
-
   handleFilterChange(sFielName, sValue) {
     this.setState({ fireSearch: false });
     this.setState({ [sFielName]: sValue });
   }
 
-  handleSearch(aAdditionalFilters) {
+  handleSearch(aAdditionalFilters = []) {
     this.setState({
       fireSearch: true
     });
 
     let oFilter = {};
-    if(aAdditionalFilters && aAdditionalFilters.length > 0){
+    if(aAdditionalFilters.length <= 0){
+      aAdditionalFilters = this.props.selectedSubFilter || [];
+    }
+
+    if(aAdditionalFilters.length > 0){
       aAdditionalFilters.forEach((oAdditional)=>{
         if(!oFilter[oAdditional.propertyInCouponModel]) {
           oFilter[oAdditional.propertyInCouponModel] = [oAdditional.filterName];
@@ -100,7 +99,6 @@ class SearchPage extends React.Component {
           searchInput={this.state.searchInput}
           onSearch={this.handleSearch}
           onFilterChange={this.handleFilterChange}
-          onSubFiltersChange={this.handleSubFilterChange}
           onAddCouponFinish={this.handleCouponAdded}
         />
         <SearchContent
