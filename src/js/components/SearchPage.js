@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./Header";
 import SearchContent from "./SearchContent";
 import Toast from "./Toast";
+import { connect } from "react-redux";
 
 class SearchPage extends React.Component {
   constructor(props) {
@@ -24,8 +25,14 @@ class SearchPage extends React.Component {
     this.handleSubFilterChange = this.handleSubFilterChange.bind(this);
   }
 
-  handleSubFilterChange(aFilters) {
-    this.handleSearch(aFilters);
+  componentWillReceiveProps(props) {
+    if (props.selectedSubFilter) {
+      this.handleSearch(props.selectedSubFilter)
+    }
+  }
+
+  handleSubFilterChange() {
+    // this.handleSearch();
   }
 
   handleFilterChange(sFielName, sValue) {
@@ -107,4 +114,11 @@ class SearchPage extends React.Component {
   }
 }
 
-export default SearchPage;
+const mapStateToProps = state => {
+  return {
+    selectedSubFilter: state.userPreference.selectedSubFilter
+  };
+};
+
+
+export default connect(mapStateToProps)(SearchPage);
