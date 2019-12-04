@@ -25,7 +25,7 @@ APP Flow:
   ![Alt text](CouponMaatran_BuildUp2.png?raw=true)
   
   2. Created Carousel control for filtering to get more refined result of coupons. (Filtering logic is implemented)
-  ![Alt_test](CarouselFilter.png?raw=true)
+  ![Alt_test](CarouselFilter2.png?raw=true)
 
 # Technology Stack:
   1. UI/Client - React Js
