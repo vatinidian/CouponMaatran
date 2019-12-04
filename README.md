@@ -14,7 +14,7 @@ React web application to exchange coupons (This is a Learning app )
   6. Notification system to notify user about buyer interest on coupons , negotiation , bidding (?) , messaging (?).
 
 # Current Status:
-Initial Development phase.
+Initial Development phase. <b>NEW Dev-> Enhanced with REDUX store container.</b>
   1. Simple Search page to list all coupons is finished.
   ![Alt text](CouponMaatran_BuildUp2.png?raw=true)
   
