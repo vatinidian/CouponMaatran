@@ -16,7 +16,7 @@ React web application to exchange coupons (This is a Learning app )
 # Current Status:
 Initial Development phase. 
 <b>NEW Dev (5th Dec 2019)-> Enhanced with REDUX store container.</b><br/>
-  i.  Store the SubFilter Items information in Store and Use it in Carousel Component.<br/>
+  i.  Maintain the SubFilter Items information in Redux Store and Use it in Carousel Component.<br/>
   ii. Created the user preference reducer to store user preferences in the current session , right now implemented for Sub Filter Item Selection
   <br/>
  
