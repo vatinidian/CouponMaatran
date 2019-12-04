@@ -39,7 +39,7 @@ class Header extends React.Component {
     const searchInput = document.getElementById("searchInput");
     searchInput.addEventListener("keyup", event => {
       if (event.key === "Enter") {
-        this.props.onSearch();
+        this.props.onSearch(null, true);
       }
     });
   }

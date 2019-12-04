@@ -35,17 +35,17 @@ class SearchPage extends React.Component {
     this.setState({ [sFielName]: sValue });
   }
 
-  handleSearch(aAdditionalFilters = []) {
+  handleSearch(aAdditionalFilters, bFromSearchInput) {
     this.setState({
       fireSearch: true
     });
 
     let oFilter = {};
-    if(aAdditionalFilters.length <= 0){
+    if(!aAdditionalFilters && bFromSearchInput){
       aAdditionalFilters = this.props.selectedSubFilter || [];
     }
 
-    if(aAdditionalFilters.length > 0){
+    if(aAdditionalFilters && aAdditionalFilters.length > 0){
       aAdditionalFilters.forEach((oAdditional)=>{
         if(!oFilter[oAdditional.propertyInCouponModel]) {
           oFilter[oAdditional.propertyInCouponModel] = [oAdditional.filterName];
