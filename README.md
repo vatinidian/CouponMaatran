@@ -20,12 +20,14 @@ Initial Development phase. <br/>
   ii. Created the user preference reducer to store user preferences in the current session , right now implemented for Sub Filter Item Selection
   <br/>
  
-APP Flow:
   1. Simple Search page to list all coupons is finished.
   ![Alt text](CouponMaatran_BuildUp3.png?raw=true)
   
   2. Created Carousel control for filtering to get more refined result of coupons. (Filtering logic is implemented)
-  ![Alt_test](CarouselFilter2.png?raw=true)
+  ![](CarouselFilter2.png?raw=true)
+  
+  3. Add Coupon Modal design is changed and new design style tried out and dummy UI is availble with no action.
+  ![](BasicAddForm.png?raw=true)
 
 # Technology Stack:
   1. UI/Client - React Js
