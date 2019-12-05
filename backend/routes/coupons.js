@@ -1,6 +1,15 @@
 const router = require("express").Router();
 let CouponModel = require("../model/coupon.model");
 
+function caseInsensitiveQuery(optValues) {
+  var optRegexp = [];
+  optValues.forEach(function(opt) {
+    optRegexp.push(new RegExp(opt, "i"));
+  });
+
+  return optRegexp;
+}
+
 router.route("/").get((req, res, next) => {
   let searchFilter = req.query.searchFilter || "";
   let regex = new RegExp(searchFilter, "i");
@@ -27,9 +36,11 @@ router.route("/").get((req, res, next) => {
         ]
       }
     : {};
-
+    
+  let aSubFilters;
   for (const sKey in oSubFilters) {
-    oQuery[sKey] = oSubFilters[sKey];
+    aSubFilters = caseInsensitiveQuery(oSubFilters[sKey]);
+    oQuery[sKey] = aSubFilters;
   }
 
   CouponModel.find(oQuery)

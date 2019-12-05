@@ -2,7 +2,7 @@ const router = require("express").Router();
 const q = require("q");
 let categoriesModel = require("../model/categories.model");
 let couponTypeModel = require("../model/couponTypes.model");
-let paymentTypeModel = require("../model/paymentTypes.model");
+let exchangeTypeModel = require("../model/exchangeTypes.model");
 
 function parseResult(aResults, sFilterName, sFilterDesc, sPropertyName) {
   let aOutput = [];
@@ -18,19 +18,18 @@ router.route("/").get((req, res, next) => {
   let filterListPromises = [
     categoriesModel.find().exec(),
     couponTypeModel.find().exec(),
-    paymentTypeModel.find().exec()
+    exchangeTypeModel.find().exec()
   ];
 
   let aCategories = [],
     aCouponTypes = [],
-    aPaymentTypes = [];
+    aexchangeTypes = [];
 
   q.all(filterListPromises).then(function(aResults) {
-    debugger;
     aCategories = parseResult(aResults[0], "category", "categoryDesc", "category");
     aCouponTypes = parseResult(aResults[1], "couponType", "couponTypeDesc", "couponType");
-    aPaymentTypes = parseResult(aResults[2], "paymentType", "paymentTypeDesc", "paymentType");
-    res.json([...aCategories, ...aCouponTypes, ...aPaymentTypes]);
+    aexchangeTypes = parseResult(aResults[2], "exchangeType", "exchangeTypeDesc", "exchangeType");
+    res.json([...aCategories, ...aCouponTypes, ...aexchangeTypes]);
   });
 });
 

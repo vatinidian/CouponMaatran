@@ -5,7 +5,7 @@ const couponSchema = new Schema(
   {
     couponType: { required: true, type: String, trim: true },
     category: { required: true, type: String, trim: true },
-    price: { required: true, type: Number, trim: true },
+    exhcangeprice: { required: true, type: Number, trim: true },
     title: { required: true, type: String, trim: true },
     validityStart: { required: true, type: Date },
     validityEnd: { required: true, type: Date },
@@ -14,8 +14,11 @@ const couponSchema = new Schema(
     sourceProductID: { required: true, type: String, trim: true },
     exchangeOnly: { required: true, type: Boolean },
     negotiable: { required: true, type: Boolean },
-    paymentType: {required: true, type: String},
-    quantity: {required: true, type: Number}
+    exchangeType: { required: true, type: String },
+    quantity: { required: true, type: Number },
+    currency: { required: true, type: String },
+    couponPrice: { required: true, type: Number },
+    exchangeInfo: { required: true, type: String} // Link to Other Model
   },
   {
     timestamps: true

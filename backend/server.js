@@ -28,8 +28,8 @@ app.use("/categories", categories);
 const couponTypes = require("./routes/couponTypes");
 app.use("/couponTypes", couponTypes);
 
-const paymentTypes = require("./routes/paymentTypes");
-app.use("/paymentTypes", paymentTypes);
+const exchangeTypes = require("./routes/exchangeTypes");
+app.use("/exchangeTypes", exchangeTypes);
 
 const subFilters = require("./routes/subFilters");
 app.use("/subFilters", subFilters);
