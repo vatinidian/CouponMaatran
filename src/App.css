@@ -170,6 +170,7 @@ button:active {
   text-align: center;
   float: left;
   padding: 5px;
+  height: 155px;
   width: 125px;
   background: var(--main-background-color);
 }
@@ -260,39 +261,16 @@ button:active {
   background: rgba(0, 0, 0, 0.6);
 }
 
-.modalHeader {
-  text-align: center;
-  border-radius: 5px 5px 0 0;
-  min-height: 3rem;
-  font-size: larger;
-  color: var(--secondary-background-color);
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  font-weight: bold;
-}
-
-.modalFooter {
-  border-radius: 0 0 5px 5px;
-  min-height: 3rem;
-  width: 100%;
-  bottom: 0;
-}
-
-.modalFooter .endButton {
-  margin: 0.5rem;
-}
-
 .modal {
   z-index: 30;
   transition: all ease 1s;
   opacity: 0;
   transform: scale(0) rotate(720deg);
-  border-radius: 5px;
-  position: fixed;
+  border-radius: 15px;
+  position: relative;
   margin: 0 auto;
-  width: auto;
-  min-width: 500px;
+  width: 80%;
+  min-width: 700px;
   height: auto;
   background: var(--light-mode-color);
   box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.4);
@@ -302,56 +280,6 @@ button:active {
   transition: all ease 1s;
   opacity: 1;
   transform: scale(1) rotate(0deg);
-}
-
-.modalBody {
-  min-height: 300px;
-  max-height: 450px;
-  padding: 1rem;
-  overflow-y: auto;
-  background: var(--light-mode-color);
-}
-
-.modalBody::-webkit-scrollbar {
-  width: 0.75em;
-}
-
-.modalBody::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.modalBody::-webkit-scrollbar-thumb {
-  background-color: lightslategrey;
-  border-radius: 1rem;
-  outline: 1px solid slategrey;
-}
-
-.form-group {
-  padding: 10px;
-}
-
-.couponInput {
-  width: 100%;
-  font-size: medium;
-  padding: 7px;
-  border-radius: 5px;
-  border: 1px;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
-}
-
-.couponInput:focus,
-.couponSelectInput:focus {
-  outline: none;
-  border: 0;
-  box-shadow: 0 0 0 0.5pt var(--secondary-background-color);
-}
-
-.couponSelectInput {
-  padding: 5px;
-  font-size: medium;
-  border-radius: 4px;
-  border: 1px;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
 }
 
 .searchTitle {
@@ -654,4 +582,117 @@ button:active {
   font-size: larger;
   font-weight: bold;
   color: var(--contrast-hover-color);
+}
+
+/* Add Coupon Modal Input Styling*/
+.addCouponBody {
+  border-radius: 15px;
+  min-height: 300px;
+  max-height: 350px;
+  padding: 1rem;
+  padding-bottom: 0;
+  overflow: hidden;
+  background: var(--light-mode-color);
+}
+
+.half-circle {
+  overflow: hidden;
+  z-index: 99;
+  display: inline-block;
+  top: 15%;
+  width: 37px;
+  height: 250px;
+  background-color: var(--secondary-background-color);
+  border-bottom-right-radius: 70px;
+  border-top-right-radius: 70px;
+  border-left: 0;
+  box-sizing: border-box;
+  position: absolute;
+}
+
+.verticalTitle {
+  overflow: hidden;
+  font-size: x-large;
+  font-weight: bold;
+  color: var(--contrast-background-color);
+  transform: rotate(-90deg);
+  width: 150px;
+  top: 44%;
+  height: 2rem;
+  left: -57px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.couponInput {
+  width: 100%;
+  font-size: medium;
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.couponInput:focus,
+.couponSelectInput:focus {
+  outline: none;
+  border: 0;
+  box-shadow: 0 0 0 0.5pt var(--secondary-background-color);
+}
+
+.couponSelectInput {
+  padding: 5px;
+  font-size: medium;
+  border-radius: 4px;
+  border: 1px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.form-group {
+  padding: 10px;
+  display: inline-block;
+}
+
+.couponTitle {
+  width: 97%;
+}
+
+.couponDescription {
+  width: 94%;
+  margin-left: 2rem;
+}
+
+.couponDescTextArea {
+  resize: none;
+}
+
+.sectionContainers {
+  margin-left: 5rem;
+  position: relative;
+}
+
+.section {
+  float: left;
+  width: 33%;
+  min-width: 230px;
+}
+
+.modalFooter {
+  height: 3rem;
+  bottom: 0;
+}
+
+.modalFooter .endButton {
+  margin: 0.5rem;
+}
+
+.barCodeText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  margin-top: -15px;
+  font-size: xx-small;
 }

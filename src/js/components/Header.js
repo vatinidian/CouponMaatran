@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "./Modal";
+import AddCouponModal from "./AddCouponModal";
 import axios from "axios";
 import SubFilterItemContainer from "../containers/SubFilterItemContainer";
 import DatePicker from "react-datepicker";
@@ -96,8 +96,11 @@ class Header extends React.Component {
   getAddCouponModalContent() {
     return (
       <div className="addCouponForm">
-        <form onSubmit={this.handleAddCoupon} autocomplete="off" q>
-          <div className="form-group">
+        <div className="barCodeText">
+          ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+        </div>
+        <form onSubmit={this.handleAddCoupon} autoComplete="off">
+          <div className="form-group couponTitle">
             <input
               type="text"
               name="title"
@@ -108,140 +111,165 @@ class Header extends React.Component {
               onChange={this.handleInputChange}
             />
           </div>
-          <div className="form-group">
+
+          <div className="form-group couponDescription">
             <textarea
               required
               placeholder="Description"
-              className="couponInput"
+              className="couponInput couponDescTextArea"
               name="description"
               value={this.state.description}
               onChange={this.handleInputChange}
             />
           </div>
-          <div className="form-group">
-            <input
-              type="text"
-              name="category"
-              placeholder="Category"
-              required
-              className="couponInput"
-              value={this.state.category}
-              onChange={this.handleInputChange}
-            />
-          </div>
+          
+          <div className="sectionContainers">
+            <div className="section">
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="couponType"
+                  required
+                  placeholder="CouponType"
+                  className="couponInput"
+                  value={this.state.couponType}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="category"
+                  placeholder="Category"
+                  required
+                  className="couponInput"
+                  value={this.state.category}
+                  onChange={this.handleInputChange}
+                />
+              </div>
 
-          <div className="form-group">
-            <input
-              type="text"
-              name="price"
-              required
-              placeholder="Price"
-              className="couponInput"
-              value={this.state.price}
-              onChange={this.handleInputChange}
-            />
-          </div>
+              <div className="form-group">
+                <div>
+                  <DatePicker
+                    className="couponInput"
+                    placeholderText="Validity Start Date"
+                    name="validityStart"
+                    selected={this.state.validityStart}
+                    onChange={this.handlevalidityStartDate}
+                  />
+                </div>
+              </div>
 
-          <div className="form-group">
-            <input
-              type="text"
-              name="couponType"
-              required
-              placeholder="CouponType"
-              className="couponInput"
-              value={this.state.couponType}
-              onChange={this.handleInputChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <input
-              type="text"
-              name="sourceProductID"
-              required
-              placeholder="Enter Product Information"
-              className="couponInput"
-              value={this.state.sourceProductID}
-              onChange={this.handleInputChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <input
-              type="text"
-              name="ownerID"
-              required
-              placeholder="Enter your Username"
-              className="couponInput"
-              value={this.state.ownerID}
-              onChange={this.handleInputChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <div>
-              <DatePicker
-                className="couponInput"
-                placeholderText="Validity Start Date"
-                name="validityStart"
-                selected={this.state.validityStart}
-                onChange={this.handlevalidityStartDate}
-              />
+              <div className="form-group">
+                <div>
+                  <DatePicker
+                    className="couponInput"
+                    name="validityEnd"
+                    placeholderText="Validity End Date"
+                    selected={this.state.validityEnd}
+                    onChange={this.handlevalidityEndDate}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="form-group">
-            <div>
-              <DatePicker
-                className="couponInput"
-                name="validityEnd"
-                placeholderText="Validity End Date"
-                selected={this.state.validityEnd}
-                onChange={this.handlevalidityEndDate}
-              />
+            <div className="section">
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="exchangeType"
+                  required
+                  placeholder="Exchange Type"
+                  className="couponInput"
+                  value={this.state.exchangeType}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="couponPrice"
+                  required
+                  placeholder="Coupon Price"
+                  className="couponInput"
+                  value={this.state.couponPrice}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="exchangePrice"
+                  required
+                  placeholder="Exchange Price"
+                  className="couponInput"
+                  value={this.state.exchangePrice}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="currency"
+                  required
+                  placeholder="currency"
+                  className="couponInput"
+                  value={this.state.currency}
+                  onChange={this.handleInputChange}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="form-group">
-            <label>Exchange Only: </label>
-            <select
-              name="exchangeOnly"
-              required
-              className="couponSelectInput"
-              value={this.state.exchangeOnly}
-              onChange={this.handleInputChange}
-            >
-              <option key="dummy" value=""></option>
-              <option key="Yes" value="true">
-                Yes
-              </option>
-                       
-              <option key="No" value="false">
-                No
-              </option>
-                               
-            </select>
-          </div>
+            <div className="section">
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="negotiable"
+                  required
+                  placeholder="Negotiable"
+                  className="couponInput"
+                  value={this.state.negotiable}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="quantity"
+                  required
+                  placeholder="Quantity"
+                  className="couponInput"
+                  value={this.state.quantity}
+                  onChange={this.handleInputChange}
+                />
+              </div>
 
-          <div className="form-group">
-            <label>Negotiable: </label>
-            <select
-              name="negotiable"
-              required
-              className="couponSelectInput"
-              value={this.state.negotiable}
-              onChange={this.handleInputChange}
-            >
-              <option key="dummy" value=""></option>
-              <option key="Yes" value="true">
-                Yes
-              </option>
-                       
-              <option key="No" value="false">
-                No
-              </option>
-                       
-            </select>
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="exchangeInfo"
+                  required
+                  placeholder="Exchange Info"
+                  className="couponInput"
+                  value={this.state.exchangeInfo}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="sourceProductID"
+                  required
+                  placeholder="Product Info"
+                  className="couponInput"
+                  value={this.state.sourceProductID}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -285,14 +313,14 @@ class Header extends React.Component {
               <i className="material-icons">add</i>
             </button>
 
-            <Modal
-              title="Add Coupon"
+            <AddCouponModal
+              sideTitle="Coupon"
               show={this.state.addCouponModalShow}
               onClose={this.handleAddCouponModalToggle}
               onConfirm={this.handleAddCoupon}
             >
               {this.getAddCouponModalContent()}
-            </Modal>
+            </AddCouponModal>
           </div>
         </div>
 

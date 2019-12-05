@@ -109,8 +109,6 @@ class CouponCard extends React.Component {
             </div>
 
             <div>
-              <span className="mediumText">Coupon:</span>
-              <br />
               <span className="mediumText">Options Link</span>
             </div>
 
@@ -142,8 +140,6 @@ class CouponCard extends React.Component {
 
             <span className="subText"> (or) </span>
             <div>
-              <span className="mediumText">Exchange:</span>
-              <br />
               <span className="mediumText">Options</span>
             </div>
           </>
@@ -246,7 +242,7 @@ class CouponCard extends React.Component {
           </div>
 
           <div className="cardFooter">
-            {(!this.state.expired && !this.state.outOfStock) && (
+            {!this.state.expired && !this.state.outOfStock && (
               <button className="endButton iconButton">
                 <i className="large material-icons">add_shopping_cart</i>
               </button>
