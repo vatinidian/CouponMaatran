@@ -16,7 +16,7 @@ class SubFilterItem extends React.Component {
     axios
       .get("http://localhost:5000/subFilters/")
       .then(response => {
-        this.props.loadSubFilterItems(response.data);
+        this.props.setSubFilterItems(response.data);
         if (response.data.length > 0) {
           this._showNavButtons();
         }

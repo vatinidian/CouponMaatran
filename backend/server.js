@@ -31,6 +31,9 @@ app.use("/couponTypes", couponTypes);
 const exchangeTypes = require("./routes/exchangeTypes");
 app.use("/exchangeTypes", exchangeTypes);
 
+const currencies = require("./routes/currencies");
+app.use("/currencies", currencies);
+
 const subFilters = require("./routes/subFilters");
 app.use("/subFilters", subFilters);
 

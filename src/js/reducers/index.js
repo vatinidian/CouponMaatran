@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
-import header from './header';
+import dataStore from './dataStore';
 import userPreference from './userPreference';
 
 export default combineReducers({
-    header,
+    dataStore,
     userPreference
 });

@@ -1,6 +1,6 @@
-export const loadSubFilterItems = data => {
+export const setSubFilterItems = data => {
   return {
-    type: "loadSubFilterItems",
+    type: "setSubFilterItems",
     subFilterItems: data
   };
 };
@@ -16,5 +16,33 @@ export const removeFromSelectedSubFilter = data => {
   return {
     type: "removeFromSelectedSubFilter",
     removedSubFilter: data
+  };
+};
+
+export const setCategories = data => {
+  return {
+    type: "setCategories",
+    categories: data
+  };
+};
+
+export const setCouponTypes = data => {
+  return {
+    type: "setCouponTypes",
+    couponTypes: data
+  };
+};
+
+export const setCurrencies = data => {
+  return {
+    type: "setCurrencies",
+    currencies: data
+  };
+};
+
+export const setExchangeTypes = data => {
+  return {
+    type: "setExchangeTypes",
+    exchangeTypes: data
   };
 };

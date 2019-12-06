@@ -36,7 +36,7 @@ router.route("/").get((req, res, next) => {
         ]
       }
     : {};
-    
+
   let aSubFilters;
   for (const sKey in oSubFilters) {
     aSubFilters = caseInsensitiveQuery(oSubFilters[sKey]);
@@ -51,32 +51,36 @@ router.route("/").get((req, res, next) => {
 router.route("/add").post((req, res) => {
   const couponType = req.body.couponType;
   const category = req.body.category;
-  const price = Number(req.body.price);
+  const couponPrice = Number(req.body.couponPrice) || 0;
+  const exchangePrice = Number(req.body.exchangePrice) || 0;
   const title = req.body.title;
   const validityStart = Date.parse(req.body.validityStart);
   const validityEnd = Date.parse(req.body.validityEnd);
   const description = req.body.description;
   const ownerID = req.body.ownerID;
   const sourceProductID = req.body.sourceProductID;
-  const exchangeOnly = req.body.exchangeOnly;
   const negotiable = req.body.negotiable;
-  const paymentType = req.body.paymentType;
-  const quantity = req.body.quantity;
+  const exchangeType = req.body.exchangeType;
+  const quantity = Number(req.body.quantity) || 0;
+  const currency = req.body.currency;
+  const exchangeInfo = req.body.exchangeInfo;
 
   const newCoupon = new CouponModel({
     couponType,
     category,
-    price,
+    couponPrice,
+    exchangePrice,
     title,
     validityStart,
     validityEnd,
     description,
     ownerID,
     sourceProductID,
-    exchangeOnly,
     negotiable,
-    paymentType,
-    quantity
+    exchangeType,
+    quantity,
+    currency,
+    exchangeInfo
   });
 
   newCoupon
