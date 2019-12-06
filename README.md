@@ -27,7 +27,7 @@ Initial Development phase. <br/>
   ![](CarouselFilter2.png?raw=true)
   
   3. Add Coupon Modal design is changed and new design style tried out and dummy UI is availble with no action.
-  ![](BasicAddForm.png?raw=true)
+  ![](AddCouponForm2.png?raw=true)
 
 # Technology Stack:
   1. UI/Client - React Js
