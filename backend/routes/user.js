@@ -3,12 +3,13 @@ let userLoginModel = require("../model/userLogin.model");
 let userInfoModel = require("../model/userInfo.model");
 
 const loginStatusEnum = {
-  INCOMPLETE_REQ: "INCOMPLETE_REQ",
-  FAILED: "FAILED",
-  LOGGED_IN: "LOGGED_IN",
-  USER_NOT_FOUND: "USER_NOT_FOUND",
-  USER_EXIST: "USER_EXIST",
-  NEW_USER: "NEW_SUER"
+  FORBIDDEN: { status: "FORBIDDEN", text: "Authorization issue" },
+  INCOMPLETE_REQ: { status: "INCOMPLETE_REQ", text: "Incomplete Information" },
+  FAILED: { status: "FAILED", text: "Username or Password incorrect" },
+  LOGGED_IN: { status: "LOGGED_IN", text: "You are logged in" },
+  USER_NOT_FOUND: { status: "USER_NOT_FOUND", text: "User not found" },
+  USER_EXIST: { status: "USER_EXIST", text: "User already exist" },
+  NEW_USER: { status: "NEW_USER", text: "New user" }
 };
 
 function addUserInfo(req) {
@@ -36,37 +37,52 @@ router.route("/getLoginStatusEnum").get((req, res) => {
 });
 
 router.route("/login").get((req, res, next) => {
-  if (!req.body.username || !req.body.password) {
+  let authHeader = req.headers["authorization"];
+  if (!authHeader) {
     res.json({
-      status: loginStatusEnum.INCOMPLETE_REQ
+      status: loginStatusEnum.FORBIDDEN.status,
+      statusText: loginStatusEnum.FORBIDDEN.text
     });
+
+    return;
   }
+
+  let aUserAuth = new Buffer(authHeader.split(" ")[1], "base64")
+    .toString()
+    .split(":");
+  let sPassword = aUserAuth[1];
   userLoginModel
     .findOne({
-      username: req.body.username
+      username: aUserAuth[0]
     }) /*.populate("userInfo")*/
     .exec(function(oError, user) {
       if (oError) {
         next(oError);
       }
       if (!user) {
-        res.json({ status: loginStatusEnum.FAILED });
+        res.json({
+          status: loginStatusEnum.FAILED.status,
+          statusText: loginStatusEnum.FAILED.text
+        });
         return;
       }
-      user.comparePassword(req.body.password, function(err, isMatch) {
+      user.comparePassword(sPassword, function(err, isMatch) {
         if (err) next(err);
-        console.log("Password is ", isMatch);
 
         if (isMatch) {
           user.populate("userInfo", function(err, out) {
             if (err) next(err);
             res.json({
               userInfo: out.userInfo[0],
-              status: loginStatusEnum.LOGGED_IN
+              status: loginStatusEnum.LOGGED_IN.status,
+              statusText: loginStatusEnum.LOGGED_IN.text
             });
           });
         } else {
-          res.json({ status: loginStatusEnum.FAILED });
+          res.json({
+            status: loginStatusEnum.FAILED.status,
+            statusText: loginStatusEnum.FAILED.text
+          });
         }
       });
     });
@@ -82,11 +98,15 @@ router.route("/checkUserName/:username").get((req, res, next) => {
         next(oError);
       }
       if (!user) {
-        res.json({ status: loginStatusEnum.USER_NOT_FOUND });
-        console.log("No User Found");
+        res.json({
+          status: loginStatusEnum.USER_NOT_FOUND.status,
+          statusText: loginStatusEnum.USER_NOT_FOUND.text
+        });
       } else {
-        res.json({ status: loginStatusEnum.USER_EXIST });
-        console.log("User Exist");
+        res.json({
+          status: loginStatusEnum.USER_EXIST.status,
+          statusText: loginStatusEnum.USER_EXIST.text
+        });
       }
     }
   );
@@ -104,9 +124,10 @@ router.route("/register").post((req, res) => {
   newUser
     .save()
     .then(() => {
-      addUserInfo(req);
+      //addUserInfo(req);
       res.json({
-        statue: loginStatusEnum.NEW_USER
+        status: loginStatusEnum.NEW_USER.status,
+        statusText: loginStatusEnum.NEW_USER.text
       });
     })
     .catch(err => res.status(400).json("Error: " + err));

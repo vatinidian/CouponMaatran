@@ -105,7 +105,7 @@ button:active {
 .couponCard {
   background: #fff;
   min-width: 350px;
-  max-width:390px;
+  max-width: 390px;
   min-height: 200px;
   height: 250px;
   border-radius: 5px;
@@ -178,9 +178,10 @@ button:active {
 }
 
 .cardRightContent {
-  width: calc(100% - 149px);
+  width: calc(100% - 165px);
   float: right;
   padding: 7px;
+  margin-left: 1rem;
 }
 
 .endButton {
@@ -229,6 +230,7 @@ button:active {
 }
 
 .headerButton {
+  margin-left: 5px;
   background: transparent;
   border: 1px solid var(--light-mode-color);
   border-radius: 4px;
@@ -457,15 +459,14 @@ button:active {
 }
 
 .actionIconButton {
+  cursor: pointer;
   background: transparent;
   border: 0;
   color: var(--secondary-background-color);
 }
 
 .actionIconButton:hover {
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
-  color: var(--secondary-background-color);
-  border-radius: 5px;
+  color: var(--contrast-hover-color);
 }
 
 .subHeaderContainer {
@@ -627,10 +628,11 @@ button:active {
   align-items: center;
 }
 
+.formModalInput,
 .couponInput {
   color: var(--secondary-background-color);
   border: 0;
-  width: 100%;
+  width: calc(100% - 14px);
   font-size: medium;
   padding: 7px;
   border-bottom: 1px dotted #ccc;
@@ -638,11 +640,13 @@ button:active {
 }
 
 .checkInvalid .couponSelectInput:invalid,
-.checkInvalid .couponInput:invalid { /*.class:not(:placeholder-shown):invalid*/
+.checkInvalid .couponInput:invalid {
+  /*.class:not(:placeholder-shown):invalid*/
   border-bottom: 1px dashed #900;
   border-color: #900;
 }
 
+.formModalInput:focus,
 .couponInput:focus,
 .couponSelectInput:focus {
   outline: none;
@@ -712,12 +716,11 @@ button:active {
   font-size: xx-small;
 }
 
-
-select option{
+select option {
   color: var(--secondary-background-color);
 }
 
-select option[data-default]{
+select option[data-default] {
   color: #888;
 }
 
@@ -736,4 +739,81 @@ select:disabled {
   cursor: default;
   background-color: rgb(235, 235, 228);
   /*background-color:rgb(204, 204, 203);*/
+}
+
+/** user entry modal **/
+
+.userEntry {
+  z-index: 30;
+  transition: all ease 1s;
+  opacity: 0;
+  transform: scale(0) rotate(720deg);
+  border-radius: 5px;
+  position: relative;
+  margin: 0 auto;
+  min-width: 400px;
+  height: auto;
+  background: var(--light-mode-color);
+  box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.4);
+}
+
+.userEntry.show {
+  transition: all ease 1s;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.userEntryBody {
+  min-height: 150px;
+  padding: 1rem;
+  background: var(--light-mode-color);
+}
+
+.userEntryHeader {
+  min-height: 3rem;
+  display: flex;
+}
+.userEntryTitle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  font-size: larger;
+  margin-left: 40px;
+}
+
+.userEntryHeaderActions {
+  margin: 10px;
+  margin-bottom: 0;
+  float: right;
+}
+
+.entryFormGroup {
+  width: 100%;
+}
+.formModalInput {
+  width: calc(100% - 46px);
+  margin: 16px;
+  min-height: 2rem;
+  font-size: large;
+}
+
+.userInfo {
+  display: inline-block;
+  color: white;
+  margin-right: 10px;
+}
+
+.messageArea {
+  padding: 5px;
+  min-height: 2rem;
+  width: calc(100% - 10px);
+  border: 1px solid var(--error-color);
+  border-radius: 5px;
+  background: var(--main-background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--secondary-background-color);
 }

@@ -1,5 +1,7 @@
 const initialState = {
-  selectedSubFilter: []
+  selectedSubFilter: [],
+  loggedIn: false,
+  userInfo: {}
 };
 
 const getFilterCarouselItemIndex = (aFilters, sFilterName) => {
@@ -21,6 +23,9 @@ const userPreference = (state = initialState, action) => {
         1
       );
       return { ...state, selectedSubFilter: aNewSubFilters };
+
+    case "setUserLoginInfo":
+      return {...state, loggedIn: true, userInfo: action.userInfo}  
     default:
       return state;
   }

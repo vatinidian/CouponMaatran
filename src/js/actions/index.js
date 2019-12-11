@@ -46,3 +46,11 @@ export const setExchangeTypes = data => {
     exchangeTypes: data
   };
 };
+
+
+export const setUserLoginInfo = data => {
+  return {
+    type: "setUserLoginInfo",
+    userInfo: data
+  };
+};

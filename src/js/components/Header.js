@@ -1,19 +1,27 @@
 import React from "react";
 import AddCouponModalContainer from "../containers/AddCouponModalContainer";
 import SubFilterItemContainer from "../containers/SubFilterItemContainer";
+import UserEntryModal from "./UserEntryModal";
+import { connect } from "react-redux";
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      addCouponModalShow: false
+      addCouponModalShow: false,
+      userEntryModalShow: false,
+      pendingActionAfterLogin: [],
+      userEntryMessage: ""
     };
 
     this.baseState = this.state;
 
+    this.handleLoginComplete = this.handleLoginComplete.bind(this);
+
     this.handleAddCouponModalToggle = this.handleAddCouponModalToggle.bind(
       this
     );
+    this.handleUserEntryToggle = this.handleUserEntryToggle.bind(this);
     this.handleAddCouponFinished = this.handleAddCouponFinished.bind(this);
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
   }
@@ -28,9 +36,52 @@ class Header extends React.Component {
   }
 
   handleAddCouponModalToggle() {
-    this.setState({
-      addCouponModalShow: !this.state.addCouponModalShow
-    });
+    if (!this.props.loggedIn) {
+      this.setState(
+        {
+          userEntryMessage: "Login before adding your coupons!"
+        },
+        () => {
+          this.setState({
+            userEntryModalShow: !this.state.userEntryModalShow,
+            pendingActionAfterLogin: ["addCouponModalShow"]
+          });
+        }
+      );
+    } else {
+      this.setState({
+        addCouponModalShow: !this.state.addCouponModalShow,
+        pendingActionAfterLogin: []
+      });
+    }
+  }
+
+  handleUserEntryToggle() {
+    this.setState(
+      {
+        userEntryMessage: ""
+      },
+      () => {
+        this.setState({
+          userEntryModalShow: !this.state.userEntryModalShow,
+          pendingActionAfterLogin: []
+        });
+      }
+    );
+  }
+
+  handleLoginComplete() {
+    // TODO : Loop and do it 'addCouponModalShow'
+    this.handleUserEntryToggle();
+    if (
+      this.props.loggedIn &&
+      this.state.pendingActionAfterLogin[0] === "addCouponModalShow"
+    ) {
+      this.setState({
+        addCouponModalShow: !this.state.addCouponModalShow
+      });
+
+    }
   }
 
   handleSearchInputChange(event) {
@@ -77,6 +128,31 @@ class Header extends React.Component {
 
           {/** Add Coupon Action */}
           <div className="actionContainer">
+            {!this.props.loggedIn && (
+              <button
+                className="headerButton"
+                onClick={this.handleUserEntryToggle}
+              >
+                <i className="material-icons">person_outline</i>
+              </button>
+            )}
+
+            {this.state.userEntryModalShow && (
+              <UserEntryModal
+                message={this.state.userEntryMessage}
+                show={this.state.userEntryModalShow}
+                onClose={this.handleUserEntryToggle}
+                onLoggedIn={this.handleLoginComplete}
+              />
+            )}
+
+            {this.props.loggedIn && (
+              <div className="userInfo">
+                <span> Hello, </span>
+                <span> {this.props.userInfo.username}</span>
+              </div>
+            )}
+
             <button
               className="headerButton"
               onClick={this.handleAddCouponModalToggle}
@@ -103,4 +179,11 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+const mapStateToProps = state => {
+  return {
+    loggedIn: state.userPreference.loggedIn,
+    userInfo: state.userPreference.userInfo
+  };
+};
+
+export default connect(mapStateToProps)(Header);
