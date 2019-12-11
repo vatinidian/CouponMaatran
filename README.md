@@ -33,7 +33,7 @@ Initial Development phase. <br/>
   2. Created Carousel control for filtering to get more refined result of coupons. (Filtering logic is implemented)
   ![](CarouselFilter2.png?raw=true)
   
-  3. Add Coupon Modal design is changed and new design style tried out and dummy UI is availble with no action.
+  3. Add Coupon Modal design is changed and new design style tried out and fully functional UI ready with validations.
   ![](AddCouponForm2.png?raw=true)
 
 # Technology Stack:
