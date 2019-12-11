@@ -37,6 +37,10 @@ app.use("/currencies", currencies);
 const subFilters = require("./routes/subFilters");
 app.use("/subFilters", subFilters);
 
+const user = require("./routes/user");
+app.use("/user", user);
+
+
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });

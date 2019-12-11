@@ -109,16 +109,60 @@ class AddCouponModal extends React.Component {
     );
   }
 
-  handlevalidityStartDate(date) {
-    this.setState({
-      validityStart: date
-    });
+  checkDateValidation() {
+    let oStartDate = document.getElementsByName("validityStart")[0];
+    let oEndDate = document.getElementsByName("validityEnd")[0];
+    if (!this.state.validityStart) {
+      oStartDate.setCustomValidity("Enter Start Date");
+    } else if (
+      this.state.validityEnd &&
+      this.state.validityStart > this.state.validityEnd
+    ) {
+      oEndDate.setCustomValidity(
+        "End Date should be greater than Start Date !"
+      );
+    } else {
+      oStartDate.setCustomValidity("");
+      oEndDate.setCustomValidity("");
+    }
   }
 
-  handlevalidityEndDate(date) {
-    this.setState({
-      validityEnd: date
-    });
+  checkPriceValidation() {
+    if (this.state.exchangeType === "Free") {
+      return;
+    }
+    let oCouponPrice = document.getElementsByName("couponPrice")[0];
+    let oExchangePrice = document.getElementsByName("exchangePrice")[0];
+    if (!this.state.couponPrice) {
+      oCouponPrice.setCustomValidity("Coupon Price is required");
+    } else if (!this.state.exchangePrice) {
+      oExchangePrice.setCustomValidity("Expected Exchange Price is required");
+    } else if (+this.state.couponPrice < +this.state.exchangePrice) {
+      oExchangePrice.setCustomValidity(
+        "Dont be Greedy ! Exchange Price should not be higher than coupon price"
+      );
+    } else {
+      oExchangePrice.setCustomValidity("");
+      oCouponPrice.setCustomValidity("");
+    }
+  }
+
+  handlevalidityStartDate(date) {
+    this.setState(
+      {
+        validityStart: date
+      },
+      this.checkDateValidation
+    );
+  }
+
+  handlevalidityEndDate(date, event) {
+    this.setState(
+      {
+        validityEnd: date
+      },
+      this.checkDateValidation
+    );
   }
 
   handleInputChange(event) {
@@ -130,11 +174,21 @@ class AddCouponModal extends React.Component {
     } else {
       value = target.value;
     }
+
     const name = target.name;
-    this.setState({ [name]: value });
+    if (name === "couponPrice" || name === "exchangePrice") {
+      this.setState({ [name]: value }, this.checkPriceValidation);
+    } else {
+      this.setState({ [name]: value });
+    }
   }
 
   handleAddCoupon() {
+    let oForm = document.getElementById("addCouponFormTag");
+    oForm.className = "checkInvalid";
+    if (!oForm.reportValidity()) {
+      return;
+    }
     let oCouponPayLoad = Object.assign({}, this.state);
     axios
       .post("http://localhost:5000/coupons/add", oCouponPayLoad)
@@ -148,7 +202,11 @@ class AddCouponModal extends React.Component {
   getAddCouponModalContent() {
     return (
       <div className="addCouponForm">
-        <form onSubmit={this.handleAddCoupon} autoComplete="off">
+        <form
+          onSubmit={this.handleAddCoupon}
+          autoComplete="off"
+          id="addCouponFormTag"
+        >
           <div className="form-group couponTitle">
             <input
               type="text"
@@ -203,6 +261,7 @@ class AddCouponModal extends React.Component {
               <div className="form-group">
                 <div>
                   <DatePicker
+                    required
                     className="couponInput"
                     placeholderText="Validity Start Date"
                     name="validityStart"
@@ -215,6 +274,7 @@ class AddCouponModal extends React.Component {
               <div className="form-group">
                 <div>
                   <DatePicker
+                    required
                     className="couponInput"
                     name="validityEnd"
                     placeholderText="Validity End Date"
@@ -253,6 +313,9 @@ class AddCouponModal extends React.Component {
 
               <div className="form-group">
                 <input
+                  disabled={
+                    this.state.exchangeType === "Free" ? "disabled" : ""
+                  }
                   type="number"
                   min="0"
                   name="exchangePrice"
@@ -280,27 +343,38 @@ class AddCouponModal extends React.Component {
 
             <div className="section">
               <div className="form-group">
-                {this.formValueHelpSelect({
-                  sFieldName: "negotiable",
-                  list: [
-                    { key: "true", value: "Negotiable" },
-                    { key: "false", value: "Non-Negotiable" }
-                  ],
-                  oListProp: {
-                    key: "key",
-                    value: "value"
-                  },
-                  sPlaceholder: "Enter Negotiation Type",
-                  bUseProps: false
-                })}
+                <select
+                  disabled={
+                    this.state.exchangeType === "Free" ? "disabled" : ""
+                  }
+                  name="negotiable"
+                  required
+                  className={
+                    this.state.negotiable
+                      ? "couponSelectInput"
+                      : "couponSelectInput defaultSelectValue"
+                  }
+                  value={this.state.negotiable}
+                  onChange={this.handleInputChange}
+                >
+                  <option key="dummy" value="" data-default>
+                    Enter Negotiation Type
+                  </option>
+                  <option key="true" value="true">
+                    Negotiable
+                  </option>
+                  <option key="false" value="false">
+                    Non-Negotiable
+                  </option>
+                </select>
               </div>
               <div className="form-group">
                 <input
                   type="number"
                   name="quantity"
-                  min="0"
+                  min="1"
                   step="1"
-                  required
+                  required="required"
                   placeholder="Quantity"
                   className="couponInput"
                   value={this.state.quantity}
@@ -309,7 +383,14 @@ class AddCouponModal extends React.Component {
               </div>
 
               <div className="form-group">
+                {/* TODO : use ENUM for exchange type check*/}
                 <input
+                  disabled={
+                    this.state.exchangeType === "Cash" ||
+                    this.state.exchangeType === "Free"
+                      ? "disabled"
+                      : ""
+                  }
                   type="text"
                   name="exchangeInfo"
                   required

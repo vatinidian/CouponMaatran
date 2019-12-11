@@ -109,7 +109,7 @@ class CouponCard extends React.Component {
             </div>
 
             <div>
-              <span className="mediumText">Options Link</span>
+              <span className="mediumText">Options</span>
             </div>
 
             <span className="subText">

@@ -76,7 +76,8 @@ button:active {
 }
 
 .searchContent {
-  padding: 1rem;
+  padding-left: 1rem;
+  padding-top: 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 400px));
 }
@@ -104,10 +105,11 @@ button:active {
 .couponCard {
   background: #fff;
   min-width: 350px;
+  max-width:390px;
   min-height: 200px;
   height: 250px;
   border-radius: 5px;
-  margin: 16px;
+  margin: 5px;
   display: inline-block;
   position: relative;
   box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.4);
@@ -635,12 +637,24 @@ button:active {
   /* box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);*/
 }
 
+.checkInvalid .couponSelectInput:invalid,
+.checkInvalid .couponInput:invalid { /*.class:not(:placeholder-shown):invalid*/
+  border-bottom: 1px dashed #900;
+  border-color: #900;
+}
+
 .couponInput:focus,
 .couponSelectInput:focus {
   outline: none;
   border: 0;
   border-radius: 5px;
   box-shadow: 0 0 0 0.5pt var(--secondary-background-color);
+}
+
+.checkInvalid .couponInput:focus:invalid,
+.checkInvalid .couponSelectInput:focus:invalid {
+  border: 0;
+  box-shadow: 0 0 0 0.5pt #900;
 }
 
 .couponSelectInput {
@@ -707,8 +721,19 @@ select option[data-default]{
   color: #888;
 }
 
-
-
 .defaultSelectValue {
   color: #888;
+}
+
+input:disabled {
+  border-radius: 5px;
+  cursor: default;
+  background-color: rgb(235, 235, 228);
+}
+
+select:disabled {
+  border-radius: 5px;
+  cursor: default;
+  background-color: rgb(235, 235, 228);
+  /*background-color:rgb(204, 204, 203);*/
 }

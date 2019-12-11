@@ -43,7 +43,7 @@ router.route("/").get((req, res, next) => {
     oQuery[sKey] = aSubFilters;
   }
 
-  CouponModel.find(oQuery)
+  CouponModel.find(oQuery).sort("validityEnd")
     .then(coupons => res.json(coupons))
     .catch(err => res.status(400).json("Error: " + err));
 });
@@ -59,7 +59,7 @@ router.route("/add").post((req, res) => {
   const description = req.body.description;
   const ownerID = req.body.ownerID;
   const sourceProductID = req.body.sourceProductID;
-  const negotiable = req.body.negotiable;
+  const negotiable = req.body.negotiable || false;
   const exchangeType = req.body.exchangeType;
   const quantity = Number(req.body.quantity) || 0;
   const currency = req.body.currency;
