@@ -15,7 +15,10 @@ React web application to exchange coupons (This is a Learning app )
 
 # Current Status:
 Initial Development phase. <br/>
-<b>NEW Dev (5th Dec 2019)-> Enhanced with REDUX store container.</b><br/>
+<b> New Feature: Login Feature is enabled and enforcing user to login only before taking any action like "Adding New Coupons".
+                 Login feature implemented using BasiAuth in express js side. 
+  This needs to be improved further to restrict login failed attempts, keep user signed on , SignUp page, logout feature, forgot password and etc. (phww too many things !) <b> <br/> 
+<i>(5th Dec 2019)-> Enhanced with REDUX store container.</i><br/>
   i.  Maintain the SubFilter Items information in Redux Store and Use it in Carousel Component.<br/>
   ii. Created the user preference reducer to store user preferences in the current session , right now implemented for Sub Filter Item Selection
   <br/>
