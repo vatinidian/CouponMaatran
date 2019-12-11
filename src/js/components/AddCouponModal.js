@@ -190,6 +190,9 @@ class AddCouponModal extends React.Component {
       return;
     }
     let oCouponPayLoad = Object.assign({}, this.state);
+    if (this.props.loggedIn) {
+      oCouponPayLoad.ownerID = this.props.userInfo.username;
+    }
     axios
       .post("http://localhost:5000/coupons/add", oCouponPayLoad)
       .then((req, res) => {

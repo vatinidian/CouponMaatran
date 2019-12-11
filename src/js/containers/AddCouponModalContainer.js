@@ -7,7 +7,9 @@ const mapStateToProps = state => {
     categories: state.dataStore && state.dataStore.categories,
     couponTypes: state.dataStore && state.dataStore.couponTypes,
     exchangeTypes: state.dataStore && state.dataStore.exchangeTypes,
-    currencies: state.dataStore && state.dataStore.currencies
+    currencies: state.dataStore && state.dataStore.currencies,
+    loggedIn: state.userPreference.loggedIn,
+    userInfo: state.userPreference.userInfo
   };
 };
 
