@@ -12,12 +12,12 @@ const loginStatusEnum = {
   NEW_USER: { status: "NEW_USER", text: "New user" }
 };
 
-function addUserInfo(req) {
+function addUserInfo(req, res, callback) {
   const username = req.body.username;
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const emailID = req.body.emailID;
-  const privacy = re.body.privacy;
+  const privacy = req.body.privacy;
 
   const newUserInfo = new userInfoModel({
     username,
@@ -29,7 +29,7 @@ function addUserInfo(req) {
 
   newUserInfo
     .save()
-    .then(() => res.json("New User Info Added"))
+    .then(callback)
     .catch(err => res.status(400).json("Error: " + err));
 }
 router.route("/getLoginStatusEnum").get((req, res) => {
@@ -124,10 +124,24 @@ router.route("/register").post((req, res) => {
   newUser
     .save()
     .then(() => {
-      //addUserInfo(req);
-      res.json({
-        status: loginStatusEnum.NEW_USER.status,
-        statusText: loginStatusEnum.NEW_USER.text
+      addUserInfo(req, res, userInfo => {
+        // remove few fields
+        let oUserDetails = userInfo;
+        if (
+          oUserDetails.createdAt &&
+          oUserDetails.updatedAt &&
+          oUserDetails._id
+        ) {
+          delete oUserDetails.createdAt;
+          delete oUserDetails.updatedAt;
+          delete oUserDetails._id;
+        }
+        
+        res.json({
+          userInfo: userInfo,
+          status: loginStatusEnum.NEW_USER.status,
+          statusText: loginStatusEnum.NEW_USER.text
+        });
       });
     })
     .catch(err => res.status(400).json("Error: " + err));

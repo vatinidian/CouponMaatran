@@ -72,7 +72,6 @@ class Header extends React.Component {
 
   handleLoginComplete() {
     // TODO : Loop and do it 'addCouponModalShow'
-    this.handleUserEntryToggle();
     if (
       this.props.loggedIn &&
       this.state.pendingActionAfterLogin[0] === "addCouponModalShow"
@@ -80,8 +79,9 @@ class Header extends React.Component {
       this.setState({
         addCouponModalShow: !this.state.addCouponModalShow
       });
-
     }
+
+    this.handleUserEntryToggle();
   }
 
   handleSearchInputChange(event) {
@@ -149,7 +149,11 @@ class Header extends React.Component {
             {this.props.loggedIn && (
               <div className="userInfo">
                 <span> Hello, </span>
-                <span> {this.props.userInfo.username}</span>
+                <span className="usernameSpan">
+                  {" "}
+                  {this.props.userInfo.firstname ||
+                    this.props.userInfo.username}
+                </span>
               </div>
             )}
 

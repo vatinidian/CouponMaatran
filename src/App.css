@@ -6,7 +6,101 @@
   --contrast-hover-color: #f3a43d;
   --light-mode-color: #fff;
   --error-color: red;
+  --error-light-color: #ffd7d7;
 }
+
+/** CSS Animation Groups **/
+@keyframes textZoomInOut {
+  from {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes slide-out {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Slide in from top right corner */
+@keyframes slide-top-right {
+  0% {
+    opacity: 0;
+    transform: translate(50%, -50%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* Slide in from right middle */
+@keyframes slide-right {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* FADE IN Animation*/
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade in top to down*/
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+/* Fade Out */
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Height Change*/
+@keyframes heightChange {
+  from {
+    height: 0;
+  }
+  to {
+    height: 450px;
+  }
+}
+
+/* End of Animation */
 
 /* HTML Tags Style */
 html,
@@ -38,6 +132,8 @@ button:active {
   background: var(--secondary-background-color);
   padding: 0.5rem;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .appLogoText {
@@ -51,6 +147,7 @@ button:active {
 }
 
 .appLogo {
+  animation: textZoomInOut 6s ease-in-out;
   float: left;
 }
 
@@ -103,6 +200,7 @@ button:active {
 }
 
 .couponCard {
+  animation: fadeIn 1s ease-in-out;
   background: #fff;
   min-width: 350px;
   max-width: 390px;
@@ -184,6 +282,7 @@ button:active {
   margin-left: 1rem;
 }
 
+.beginButton,
 .endButton {
   float: right;
   height: 2rem;
@@ -198,6 +297,12 @@ button:active {
   border: 0;
 }
 
+.beginButton {
+  float: left;
+  margin: 0.5rem;
+}
+
+.beginButton:hover,
 .endButton:hover {
   border: 1px solid var(--secondary-background-color);
   background-color: var(--contrast-background-color);
@@ -226,7 +331,10 @@ button:active {
 }
 
 .actionContainer {
-  float: right;
+  position: absolute;
+  right: 1rem;
+  display: flex;
+  align-items: center;
 }
 
 .headerButton {
@@ -268,7 +376,7 @@ button:active {
 .modal {
   z-index: 30;
   transition: all ease 1s;
-  opacity: 0;
+  display: none;
   transform: scale(0) rotate(720deg);
   border-radius: 15px;
   position: relative;
@@ -278,12 +386,14 @@ button:active {
   height: auto;
   background: var(--light-mode-color);
   box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.4);
+  animation: slide-out 0.3s ease-out;
 }
 
 .modal.show {
+  display: block;
   transition: all ease 1s;
-  opacity: 1;
   transform: scale(1) rotate(0deg);
+  animation: slide-right 0.3s ease-out;
 }
 
 .searchTitle {
@@ -403,50 +513,6 @@ button:active {
 .searchContentDetails.show {
   display: block;
   animation: slide-right 0.3s ease-out;
-  -webkit-animation: slide-right 0.3s ease-out;
-  -moz-animation: slide-righ 0.3s ease-out;
-}
-
-@keyframes slide-out {
-  0% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-}
-
-@keyframes slide-right {
-  0% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-@-webkit-keyframes slide-right {
-  0% {
-    opacity: 0;
-    -webkit-transform: translateX(100%);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: translateX(0);
-  }
-}
-@-moz-keyframes slide-right {
-  0% {
-    opacity: 0;
-    -moz-transform: translateX(100%);
-  }
-  100% {
-    opacity: 1;
-    -moz-transform: translateX(0);
-  }
 }
 
 .detailTitle {
@@ -530,6 +596,7 @@ button:active {
 .carouselItems {
   position: relative;
   display: inline-block;
+  transition: left 2s ease-in-out 0s;
 }
 .carouselButton {
   height: fit-content;
@@ -745,28 +812,31 @@ select:disabled {
 
 .userEntry {
   z-index: 30;
-  transition: all ease 1s;
-  opacity: 0;
-  transform: scale(0) rotate(720deg);
+  display: none;
   border-radius: 5px;
   position: relative;
   margin: 0 auto;
   min-width: 400px;
-  height: auto;
+  height: 0;
   background: var(--light-mode-color);
   box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.4);
+  animation: fadeout 0.4s ease-out;
+  transition: height 500ms 500ms;
 }
 
 .userEntry.show {
-  transition: all ease 1s;
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
+  transition: height 2s;
+  display: block;
+  height: auto;
+  animation: fadeInDown 0.4s ease-out;
 }
 
 .userEntryBody {
+  max-width: 500px;
   min-height: 150px;
   padding: 1rem;
   background: var(--light-mode-color);
+  animation: fadeIn 2s;
 }
 
 .userEntryHeader {
@@ -803,17 +873,49 @@ select:disabled {
   display: inline-block;
   color: white;
   margin-right: 10px;
+  width: 90px;
 }
 
 .messageArea {
   padding: 5px;
   min-height: 2rem;
   width: calc(100% - 10px);
-  border: 1px solid var(--error-color);
+  border: 1px solid var(--secondary-background-color);
   border-radius: 5px;
-  background: var(--main-background-color);
+  background: var(--error-light-color);
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--secondary-background-color);
+}
+
+.checkInvalid .formModalInput:invalid {
+  border-bottom: 1px dashed #900;
+  border-color: #900;
+}
+
+.checkInvalid .formModalInput:focus:invalid {
+  border: 0;
+  box-shadow: 0 0 0 0.5pt #900;
+}
+
+.sectionHeader {
+  width: 100%;
+  display: inline-block;
+}
+
+.sectionHeader .entryFormGroup {
+  display: inline-block;
+  width: 50%;
+}
+
+.signUpContent {
+  transition: min-height 1s;
+  animation: fadeIn 1s;
+}
+
+.usernameSpan {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inherit;
 }

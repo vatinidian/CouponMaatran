@@ -8,27 +8,92 @@ class UserEntryModal extends React.Component {
     super(props);
     this.state = {
       loginFormVisible: true,
-      logonMessage: "",
+      userEntryMessage: "",
       username: "",
-      password: ""
+      password: "",
+      userSignUpInfo: {
+        username: "",
+        password: "",
+        emailID: "",
+        privacy: "",
+        firstname: "",
+        lastname: ""
+      }
     };
 
     this.baseState = this.state;
     this.handleUserEntry = this.handleUserEntry.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleNextPageLoad = this.handleNextPageLoad.bind(this);
+  }
+
+  handleNextPageLoad() {
+    let oForm = document.getElementById("userEntryLoginForm");
+    let oForm1 = document.getElementById("userEntrySignUpForm");
+    if (oForm) {
+      oForm.className = "";
+    } else if (oForm1) {
+      oForm1.className = "";
+    }
+
+    this.setState(this.baseState);
+
+    this.setState({
+      loginFormVisible: !this.state.loginFormVisible
+    });
   }
 
   handleUserEntry() {
     if (this.state.loginFormVisible) {
       this.doLogin();
+    } else {
+      this.doSignUp();
     }
+  }
+
+  doSignUp() {
+    this.setState({
+      userEntryMessage: ""
+    });
+    let oForm = document.getElementById("userEntrySignUpForm");
+    oForm.className = "checkInvalid";
+    if (!oForm.reportValidity()) {
+      return;
+    }
+
+    axios
+      .post("http://localhost:5000/user/register", {
+        username: this.state.userSignUpInfo.username,
+        password: this.state.userSignUpInfo.password,
+        emailID: this.state.userSignUpInfo.emailID,
+        privacy: this.state.userSignUpInfo.privacy,
+        lastname: this.state.userSignUpInfo.lastname,
+        firstname: this.state.userSignUpInfo.firstname
+      })
+      .then((req, res) => {
+        if (req.data && req.data.status === "NEW_USER") {
+          this.props.setUserLoginInfo(req.data.userInfo);
+          this.props.onLoggedIn();
+        } else if (req.data.status) {
+          // Handle Other cases here
+          this.setState({
+            userEntryMessage: "SignUp Failed : " + req.data.statusText
+          });
+        } else {
+          this.setState({
+            userEntryMessage: "SignUp Failed"
+          });
+        }
+      })
+      .catch(oError => console.log(oError));
   }
 
   doLogin() {
     this.setState({
-      logonMessage: ""
+      userEntryMessage: ""
     });
     let oForm = document.getElementById("userEntryLoginForm");
+    oForm.className = "checkInvalid";
     if (!oForm.reportValidity()) {
       return;
     }
@@ -43,16 +108,15 @@ class UserEntryModal extends React.Component {
       .then((req, res) => {
         if (req.data && req.data.status === "LOGGED_IN") {
           this.props.setUserLoginInfo(req.data.userInfo);
-          this.setState(this.baseState);
           this.props.onLoggedIn();
         } else if (req.data.status) {
           // Handle Other cases here
           this.setState({
-            logonMessage: "Logon Failed : " + req.data.statusText
+            userEntryMessage: "Logon Failed : " + req.data.statusText
           });
         } else {
           this.setState({
-            logonMessage: "Logon Failed"
+            userEntryMessage: "Logon Failed"
           });
         }
       })
@@ -71,42 +135,126 @@ class UserEntryModal extends React.Component {
 
     const name = target.name;
 
-    this.setState({ [name]: value });
+    if (this.state.loginFormVisible) {
+      this.setState({ [name]: value });
+    } else {
+      this.setState({
+        userSignUpInfo: { ...this.state.userSignUpInfo, [name]: value }
+      });
+    }
   }
 
   getUserEntryContent() {
     let oUserEntryBodyContent;
     if (this.state.loginFormVisible) {
       oUserEntryBodyContent = (
-        <form
-          onSubmit={this.handleAddCoupon}
-          autoComplete="off"
-          id="userEntryLoginForm"
-        >
-          <div className="entryFormGroup">
-            <input
-              type="text"
-              name="username"
-              required
-              placeholder="Username*"
-              className="formModalInput"
-              value={this.state.username}
-              onChange={this.handleInputChange}
-            />
-          </div>
+        <div className="logInContent">
+          <form autoComplete="off" id="userEntryLoginForm">
+            <div className="entryFormGroup">
+              <input
+                type="text"
+                name="username"
+                required
+                autoFocus
+                placeholder="Username*"
+                className="formModalInput"
+                value={this.state.username}
+                onChange={this.handleInputChange}
+              />
+            </div>
 
-          <div className="entryFormGroup">
-            <input
-              type="password"
-              name="password"
-              required
-              placeholder="Password*"
-              className="formModalInput"
-              value={this.state.password}
-              onChange={this.handleInputChange}
-            />
-          </div>
-        </form>
+            <div className="entryFormGroup">
+              <input
+                type="password"
+                name="password"
+                required
+                placeholder="Password*"
+                className="formModalInput"
+                value={this.state.password}
+                onChange={this.handleInputChange}
+              />
+            </div>
+          </form>
+        </div>
+      );
+    } else {
+      oUserEntryBodyContent = (
+        <div className="signUpContent">
+          <form autoComplete="off" id="userEntrySignUpForm">
+            <div className="sectionHeader">
+              <div className="entryFormGroup">
+                <input
+                  type="text"
+                  name="firstname"
+                  autoFocus
+                  placeholder="First Name"
+                  className="formModalInput"
+                  value={this.state.userSignUpInfo.firstname}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+              <div className="entryFormGroup">
+                <input
+                  type="text"
+                  name="lastname"
+                  placeholder="Last Name"
+                  className="formModalInput"
+                  value={this.state.userSignUpInfo.lastname}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+            </div>
+
+            <div className="sectionHeader">
+              <div className="entryFormGroup">
+                <input
+                  type="text"
+                  name="username"
+                  required
+                  placeholder="Username*"
+                  className="formModalInput"
+                  value={this.state.userSignUpInfo.username}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+
+              <div className="entryFormGroup">
+                <input
+                  type="password"
+                  name="password"
+                  required
+                  placeholder="Password*"
+                  className="formModalInput"
+                  value={this.state.userSignUpInfo.password}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="entryFormGroup">
+              <input
+                type="email"
+                name="emailID"
+                required
+                placeholder="Email*"
+                className="formModalInput"
+                value={this.state.userSignUpInfo.emailID}
+                onChange={this.handleInputChange}
+              />
+            </div>
+
+            <div className="entryFormGroup">
+              <input
+                type="text"
+                name="privacy"
+                required
+                placeholder="Privacy*"
+                className="formModalInput"
+                value={this.state.userSignUpInfo.privacy}
+                onChange={this.handleInputChange}
+              />
+            </div>
+          </form>
+        </div>
       );
     }
     return <div className="userEntryContent">{oUserEntryBodyContent}</div>;
@@ -122,7 +270,7 @@ class UserEntryModal extends React.Component {
         <div className="userEntry show">
           <div className="userEntryHeader">
             <div className="userEntryTitle">
-              {this.state.loginFormVisible ? "Login" : "SignUp"}
+              {this.state.loginFormVisible ? "Login" : "Create Your Account"}
             </div>
             <div className="userEntryHeaderActions">
               <button className="actionIconButton" onClick={this.props.onClose}>
@@ -133,9 +281,9 @@ class UserEntryModal extends React.Component {
 
           {/** Body Content*/}
           <div className="userEntryBody">
-            {(this.state.logonMessage || this.props.message) && (
+            {(this.state.userEntryMessage || this.props.message) && (
               <div className="messageArea">
-                {this.state.logonMessage || this.props.message}{" "}
+                {this.state.userEntryMessage || this.props.message}{" "}
               </div>
             )}
             {this.getUserEntryContent()}
@@ -143,9 +291,11 @@ class UserEntryModal extends React.Component {
 
           {/** Modal  Footer*/}
           <div className="modalFooter">
+            <button className="beginButton" onClick={this.handleNextPageLoad}>
+              {this.state.loginFormVisible ? "Create Account" : "Back To Login"}
+            </button>
             <button className="endButton" onClick={this.handleUserEntry}>
-              {" "}
-              Login{" "}
+              {this.state.loginFormVisible ? "Login" : "Create Account"}
             </button>
           </div>
         </div>
