@@ -15,14 +15,16 @@ React web application to exchange coupons (This is a Learning app )
 
 # Current Status:
 Initial Development phase. <br/>
-<b> React Router Package is being used to enable page level routing. This forced me to redesign app layout structuring and move state information to store (Moved Header as Common Portion across components). Now Layout Structure Follows as below format:<br/>
-  <Layout><br/>
+<b> React Router Package is being used to enable page level routing. This forced me to redesign app layout structuring and move state information to store (Moved Header as Common Portion across components). Now Layout Structure Follows as below format:
+  ```xml
+    <Layout><br/>
     <Header /><br/>
     <Router><br/>
       <Route path="/" component={SearchContent} /> </br>
     </Router><br/>
-  </Layout>  
-  </br></br>
+  </Layout> 
+  ```
+  </br>
 <b> New Feature (12th Dec 2019): </br>
                  Login Feature is enabled and enforcing user to login only before taking any action like "Adding New Coupons". </br>
                  Login feature implemented using BasiAuth in Middleware- express js side along with password hasing + salt in mongoose. </br> 
