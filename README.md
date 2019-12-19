@@ -17,11 +17,11 @@ React web application to exchange coupons (This is a Learning app )
 Initial Development phase. <br/>
 <b> React Router Package is being used to enable page level routing. This forced me to redesign app layout structuring and move state information to store (Moved Header as Common Portion across components). Now Layout Structure Follows as below format:
   ```xml
-    <Layout><br/>
-    <Header /><br/>
-    <Router><br/>
-      <Route path="/" component={SearchContent} /> </br>
-    </Router><br/>
+  <Layout>
+    <Header />
+    <Router>
+      <Route path="/" component={SearchContent} />
+    </Router>
   </Layout> 
   ```
   </br>
