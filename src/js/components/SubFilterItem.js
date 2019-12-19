@@ -76,6 +76,8 @@ class SubFilterItem extends React.Component {
       oCarouselItem.className = "carouselButton carouselButtonSelected";
       this.props.addToSelectedSubFilter(oItem);
     }
+
+    this.props.setFireSearch(true);
   }
 
   handleNavigation(oEvent) {

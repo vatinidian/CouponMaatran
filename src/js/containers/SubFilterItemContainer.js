@@ -1,4 +1,4 @@
-import { setSubFilterItems, addToSelectedSubFilter, removeFromSelectedSubFilter } from "../actions";
+import { setSubFilterItems, addToSelectedSubFilter, removeFromSelectedSubFilter, setFireSearch } from "../actions";
 import { connect } from "react-redux";
 import SubFilterItem from "../components/SubFilterItem";
 
@@ -12,7 +12,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setSubFilterItems: data => dispatch(setSubFilterItems(data)),
     addToSelectedSubFilter: data => dispatch(addToSelectedSubFilter(data)),
-    removeFromSelectedSubFilter: data => dispatch(removeFromSelectedSubFilter(data))
+    removeFromSelectedSubFilter: data => dispatch(removeFromSelectedSubFilter(data)),
+    setFireSearch: data => dispatch(setFireSearch(data))
   };
 };
 

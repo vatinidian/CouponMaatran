@@ -17,12 +17,11 @@ class SearchContent extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    const { searchText } = this.props.filters;
-    if (props.filters.searchText !== searchText || props.fireSearch) {
+    if (props.fireSearch) {
       this.handleDetailClose();
       this.getCoupons(
-        props.filters.searchText ? props.filters.searchText.trim() : "",
-        props.filters.subFilters ? props.filters.subFilters : {}
+        props.searchInput ? props.searchInput.trim() : "",
+        props.selectedSubFilter ? props.selectedSubFilter : []
       );
     }
   }
@@ -38,12 +37,30 @@ class SearchContent extends React.Component {
       });
   }
 
-  getCoupons(searchText, subFilters) {
+  getCoupons(searchText, aAdditionalFilters) {
+    let oFilter = {};
+    if (!aAdditionalFilters) {
+      aAdditionalFilters = this.props.selectedSubFilter || [];
+    }
+
+    if (aAdditionalFilters && aAdditionalFilters.length > 0) {
+      aAdditionalFilters.forEach(oAdditional => {
+        if (!oFilter[oAdditional.propertyInCouponModel]) {
+          oFilter[oAdditional.propertyInCouponModel] = [oAdditional.filterName];
+        } else {
+          oFilter[oAdditional.propertyInCouponModel].push(
+            oAdditional.filterName
+          );
+        }
+      });
+    }
+
     axios
       .get("http://localhost:5000/coupons/", {
         params: {
           searchFilter: searchText,
-          subFilters: subFilters
+          subFilters: oFilter,
+          expired: false
         }
       })
       .then(response => {
@@ -84,22 +101,24 @@ class SearchContent extends React.Component {
     oRoot.className = "";
   }
 
-  handleSort(event){
+  handleSort(event) {
     let oSortIcon = document.getElementById(event.target.id);
     let oSortButton;
-    if(event.target.id === "sort") {
+    if (event.target.id === "sort") {
       oSortButton = oSortIcon.parentElement;
-    } else if(event.target.id === "sortButton") {
+    } else if (event.target.id === "sortButton") {
       oSortButton = oSortIcon;
     } else {
       return;
     }
-    
+
     let sExistingClassName = oSortButton.className;
 
-    if (sExistingClassName === "searchContentButton searchContentButtonSelected") {
+    if (
+      sExistingClassName === "searchContentButton searchContentButtonSelected"
+    ) {
       oSortButton.className = "searchContentButton";
-    } else if (sExistingClassName === "searchContentButton"){
+    } else if (sExistingClassName === "searchContentButton") {
       oSortButton.className = "searchContentButton searchContentButtonSelected";
     }
   }
@@ -119,8 +138,14 @@ class SearchContent extends React.Component {
             </h3>
 
             <div className="searchContentActions">
-              <button id="sortButton" className="searchContentButton" onClick={this.handleSort}>
-                <i className="large material-icons" id="sort">sort</i>
+              <button
+                id="sortButton"
+                className="searchContentButton"
+                onClick={this.handleSort}
+              >
+                <i className="large material-icons" id="sort">
+                  sort
+                </i>
                 Sort
               </button>
             </div>
@@ -159,5 +184,6 @@ class SearchContent extends React.Component {
     );
   }
 }
+
 
 export default SearchContent;

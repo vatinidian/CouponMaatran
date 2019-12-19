@@ -1,10 +1,16 @@
-import React from 'react';
-import './App.css';
-import SearchPage from './js/components/SearchPage';
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import "./App.css";
+import Layout from "./js/components/Layout";
+import SearchContentContainer from "./js/containers/SearchContentContainer";
 
 function App() {
   return (
-    <SearchPage />
+    <Layout>
+      <BrowserRouter>
+        <Route path="/" component={SearchContentContainer} />
+      </BrowserRouter>
+    </Layout>
   );
 }
 

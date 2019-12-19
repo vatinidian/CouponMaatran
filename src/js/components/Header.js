@@ -2,7 +2,7 @@ import React from "react";
 import AddCouponModalContainer from "../containers/AddCouponModalContainer";
 import SubFilterItemContainer from "../containers/SubFilterItemContainer";
 import UserEntryModal from "./UserEntryModal";
-import { connect } from "react-redux";
+import Toast from "./Toast";
 
 class Header extends React.Component {
   constructor(props) {
@@ -11,7 +11,10 @@ class Header extends React.Component {
       addCouponModalShow: false,
       userEntryModalShow: false,
       pendingActionAfterLogin: [],
-      userEntryMessage: ""
+      userEntryMessage: "",
+      showToastMessage: false,
+      toastMessage: "",
+      toastMessageCount: 0
     };
 
     this.baseState = this.state;
@@ -24,15 +27,28 @@ class Header extends React.Component {
     this.handleUserEntryToggle = this.handleUserEntryToggle.bind(this);
     this.handleAddCouponFinished = this.handleAddCouponFinished.bind(this);
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
+    this.handleSearchButton = this.handleSearchButton.bind(this);
   }
 
   componentDidMount() {
     const searchInput = document.getElementById("searchInput");
     searchInput.addEventListener("keyup", event => {
       if (event.key === "Enter") {
-        this.props.onSearch(null, true);
+        this.props.setFireSearch(true);
       }
     });
+  }
+
+  showToast() {
+    if (!this.state.showToastMessage) {
+      return null;
+    }
+    return (
+      <Toast
+        messageCount={this.state.toastMessageCount}
+        message={this.state.toastMessage}
+      />
+    );
   }
 
   handleAddCouponModalToggle() {
@@ -54,6 +70,17 @@ class Header extends React.Component {
         pendingActionAfterLogin: []
       });
     }
+  }
+  handleAddCouponFinished() {
+    let iMessageCount = this.state.messageCount;
+    this.setState({
+      showMessage: true,
+      message: "Coupon added successfully!",
+      messageCount: ++iMessageCount,
+      addCouponModalShow: !this.state.addCouponModalShow
+    });
+
+    this.props.setFireSearch(true);
   }
 
   handleUserEntryToggle() {
@@ -86,108 +113,100 @@ class Header extends React.Component {
 
   handleSearchInputChange(event) {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-    this.props.onFilterChange(name, value);
+    const value = target.value;
+    this.props.setSearchInput(value);
   }
 
-  handleAddCouponFinished() {
-    this.setState({
-      addCouponModalShow: !this.state.addCouponModalShow
-    });
-    this.props.onAddCouponFinish();
+  handleSearchButton() {
+    this.props.setFireSearch(true);
   }
 
   render() {
     return (
-      <div className="headerContainer">
-        <div className="mainContainer">
-          <div className="appLogo">
-            <span className="appLogoText">Coupon</span>
-            <span className="appLogoText">Maatran</span>
-          </div>
+      <>
+        <div className="headerContainer">
+          <div className="mainContainer">
+            <div className="appLogo">
+              <span className="appLogoText">Coupon</span>
+              <span className="appLogoText">Maatran</span>
+            </div>
 
-          {/* Search Area */}
-          <div className="searchArea">
-            <input
-              type="text"
-              placeholder="Search Coupons"
-              name="searchInput"
-              className="searchInput"
-              id="searchInput"
-              value={this.props.searchInput}
-              onChange={this.handleSearchInputChange}
-            />
-            <button
-              className="searchButton"
-              onClick={this.props.onSearch.bind(this.state.selectedSubFilters)}
-            >
-              <i className="material-icons">search</i>
-            </button>
-          </div>
+            {/* Search Area */}
+            <div className="searchArea">
+              <input
+                type="text"
+                placeholder="Search Coupons"
+                name="searchInput"
+                className="searchInput"
+                id="searchInput"
+                value={this.props.searchInput}
+                onChange={this.handleSearchInputChange}
+              />
+              <button
+                className="searchButton"
+                onClick={this.handleSearchButton}
+              >
+                <i className="material-icons">search</i>
+              </button>
+            </div>
 
-          {/** Add Coupon Action */}
-          <div className="actionContainer">
-            {!this.props.loggedIn && (
+            {/** Add Coupon Action */}
+            <div className="actionContainer">
+              {!this.props.loggedIn && (
+                <button
+                  className="headerButton"
+                  onClick={this.handleUserEntryToggle}
+                >
+                  <i className="material-icons">person_outline</i>
+                </button>
+              )}
+
+              {this.state.userEntryModalShow && (
+                <UserEntryModal
+                  message={this.state.userEntryMessage}
+                  show={this.state.userEntryModalShow}
+                  onClose={this.handleUserEntryToggle}
+                  onLoggedIn={this.handleLoginComplete}
+                />
+              )}
+
+              {this.props.loggedIn && (
+                <div className="userInfo">
+                  <span> Hello, </span>
+                  <span className="usernameSpan">
+                    {" "}
+                    {this.props.userInfo.firstname ||
+                      this.props.userInfo.username}
+                  </span>
+                </div>
+              )}
+
               <button
                 className="headerButton"
-                onClick={this.handleUserEntryToggle}
+                onClick={this.handleAddCouponModalToggle}
               >
-                <i className="material-icons">person_outline</i>
+                <i className="material-icons">add</i>
               </button>
-            )}
 
-            {this.state.userEntryModalShow && (
-              <UserEntryModal
-                message={this.state.userEntryMessage}
-                show={this.state.userEntryModalShow}
-                onClose={this.handleUserEntryToggle}
-                onLoggedIn={this.handleLoginComplete}
-              />
-            )}
+              {this.state.addCouponModalShow && (
+                <AddCouponModalContainer
+                  sideTitle="Coupon"
+                  show={this.state.addCouponModalShow}
+                  onClose={this.handleAddCouponModalToggle}
+                  onAddCouponFinish={this.handleAddCouponFinished}
+                />
+              )}
+            </div>
+          </div>
 
-            {this.props.loggedIn && (
-              <div className="userInfo">
-                <span> Hello, </span>
-                <span className="usernameSpan">
-                  {" "}
-                  {this.props.userInfo.firstname ||
-                    this.props.userInfo.username}
-                </span>
-              </div>
-            )}
-
-            <button
-              className="headerButton"
-              onClick={this.handleAddCouponModalToggle}
-            >
-              <i className="material-icons">add</i>
-            </button>
-
-            {this.state.addCouponModalShow && (
-              <AddCouponModalContainer
-                sideTitle="Coupon"
-                show={this.state.addCouponModalShow}
-                onClose={this.handleAddCouponModalToggle}
-                onAddCouponFinish={this.handleAddCouponFinished}
-              />
-            )}
+          <div className="subHeaderContainer">
+            <SubFilterItemContainer />
           </div>
         </div>
-
-        <div className="subHeaderContainer">
-          <SubFilterItemContainer />
-        </div>
-      </div>
+        {this.showToast()}
+      </>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    loggedIn: state.userPreference.loggedIn,
-    userInfo: state.userPreference.userInfo
-  };
-};
-
-export default connect(mapStateToProps)(Header);
+export default Header;

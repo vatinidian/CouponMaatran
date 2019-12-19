@@ -37,13 +37,20 @@ router.route("/").get((req, res, next) => {
       }
     : {};
 
+  if (!req.query.expired || req.query.expired === "false") {
+    oQuery["validityEnd"] = {
+      $gte: new Date().setHours(0, 0, 0, 0)
+    };
+  }
+
   let aSubFilters;
   for (const sKey in oSubFilters) {
     aSubFilters = caseInsensitiveQuery(oSubFilters[sKey]);
     oQuery[sKey] = aSubFilters;
   }
 
-  CouponModel.find(oQuery).sort("validityEnd")
+  CouponModel.find(oQuery)
+    .sort("validityEnd")
     .then(coupons => res.json(coupons))
     .catch(err => res.status(400).json("Error: " + err));
 });

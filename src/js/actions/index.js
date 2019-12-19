@@ -54,3 +54,18 @@ export const setUserLoginInfo = data => {
     userInfo: data
   };
 };
+
+
+export const setSearchInput = data => {
+  return {
+    type: "setSearchInput",
+    searchInput: data
+  };
+};
+
+export const setFireSearch = data => {
+  return {
+    type: "setFireSearch",
+    fireSearch: data
+  };
+};

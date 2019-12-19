@@ -25,6 +25,20 @@ class UserEntryModal extends React.Component {
     this.handleUserEntry = this.handleUserEntry.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleNextPageLoad = this.handleNextPageLoad.bind(this);
+    this.handleEnterKey = this.handleEnterKey.bind(this);
+  }
+
+  componentDidMount() {
+    const oLoginUsername = document.getElementById("loginUsername");
+    const oLoginPassword = document.getElementById("loginPassword");
+    oLoginUsername.addEventListener("keyup", this.handleEnterKey);
+    oLoginPassword.addEventListener("keyup", this.handleEnterKey);
+  }
+
+  handleEnterKey(oEvent) {
+    if (oEvent.key === "Enter") {
+      this.handleUserEntry();
+    }
   }
 
   handleNextPageLoad() {
@@ -149,9 +163,14 @@ class UserEntryModal extends React.Component {
     if (this.state.loginFormVisible) {
       oUserEntryBodyContent = (
         <div className="logInContent">
-          <form autoComplete="off" id="userEntryLoginForm">
+          <form
+            autoComplete="off"
+            id="userEntryLoginForm"
+            onSubmit={this.handleUserEntry}
+          >
             <div className="entryFormGroup">
               <input
+                id="loginUsername"
                 type="text"
                 name="username"
                 required
@@ -165,6 +184,7 @@ class UserEntryModal extends React.Component {
 
             <div className="entryFormGroup">
               <input
+                id="loginPassword"
                 type="password"
                 name="password"
                 required
